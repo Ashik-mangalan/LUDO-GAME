@@ -103,6 +103,9 @@ html{background:#000}body{background:none;display:block;padding:0}
 .pin{width:auto;max-width:70px;display:flex;flex-direction:column;align-items:center;gap:2px}
 .av{font-style:normal;width:38px;height:38px;border-radius:50%;background:#fff;border:3px solid;display:flex;align-items:center;justify-content:center;font-size:22px}
 .pn{font-size:11px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:68px;text-shadow:0 1px 0 #0008}
+html,body{-webkit-user-select:none;user-select:none;touch-action:manipulation;overscroll-behavior:none}
+.ring{border-color:#ffb400;box-shadow:0 0 0 2px #000a,0 0 12px #ffb400,inset 0 0 0 2px #000a}
+#menu img.lg{width:92px;height:92px;border-radius:22px;box-shadow:0 6px 0 #0007,0 10px 24px #0008}
 </style></head><body>
 <div id="app">
 <div class="bar"><div class="logo">LUDO</div><button class="ib" id="thm" aria-label="Theme">🎨</button><button class="ib" id="snd" aria-label="Sound">🔊</button><button class="ib" id="mnu" aria-label="Menu">☰</button></div>
@@ -111,7 +114,7 @@ html{background:#000}body{background:none;display:block;padding:0}
 <div class="row"><div id="chip3"></div><div id="chip2"></div></div>
 <div id="msg"></div><button id="dice" aria-label="Roll the dice"></button>
 </div>
-<div id="menu"><h1>LUDO</h1><p id="sub">Roll, race and capture!</p>
+<div id="menu"><img class="lg" src="icon-192.png" alt=""><h1>LUDO</h1><p id="sub">Roll, race and capture!</p>
 <button class="btn b0" data-n="1">Play vs computer</button>
 <button class="btn b1" data-n="2">2 players</button>
 <button class="btn b1" data-n="3">3 players</button>
@@ -131,6 +134,7 @@ const col=p=>getComputedStyle(document.documentElement).getPropertyValue('--c'+p
 let AC,mute=false;
 function tone(f,d=.1,t='sine',v=.12,w=0){if(mute)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain(),s=AC.currentTime+w;o.type=t;o.frequency.value=f;g.gain.setValueAtTime(v,s);g.gain.exponentialRampToValueAtTime(.001,s+d);o.connect(g);g.connect(AC.destination);o.start(s);o.stop(s+d)}catch(e){}}
 $('snd').onclick=()=>{mute=!mute;$('snd').textContent=mute?'🔇':'🔊'};
+const buzz=ms=>{try{if(window.AndroidBridge)AndroidBridge.vibrate(ms);else if(navigator.vibrate)navigator.vibrate(ms)}catch(e){}};
 // board build
 const info={};
 const mark=(c,k)=>{const key=c+'';info[key]=(info[key]||'')+' '+k};
@@ -186,16 +190,18 @@ function start(n,g){
 }
 function active(p){return seats.includes(p)}
 function next(){
- render();if(over)return;$('chip'+turn).querySelector('.slot').appendChild(dice);
+ render();clearRings();if(over)return;$('chip'+turn).querySelector('.slot').appendChild(dice);
  dice.disabled=!isH(turn);dice.classList.toggle('my',isH(turn));
  if(isH(turn))msg((cpu?'Your turn! Tap the dice':NAMES[turn]+', tap the dice'));
  else{msg(NAMES[turn]+' is thinking…');setTimeout(roll,900)}
 }
+function ring(p,i){const r=S[p][i],c=cellOf(p,r<0?0:r+dd,i),e=document.createElement('div');e.className='ring';e.style.left=(c[0]+.5)*100/15+'%';e.style.top=(c[1]+.5)*100/15+'%';pcs.appendChild(e)}
+function clearRings(){document.querySelectorAll('.ring').forEach(e=>e.remove())}
 function legal(p,d){return [0,1,2,3].filter(i=>{const r=S[p][i];return r<0?d==6:r<56&&r+d<=56})}
 async function roll(){
  if(rolled||busy||over)return;busy=true;dice.disabled=true;dice.classList.add('roll');
  for(let n=0;n<8;n++){face(1+Math.random()*6|0);tone(300+n*40,.05,'square',.05);await sleep(70)}
- dice.classList.remove('roll');dd=1+Math.random()*6|0;face(dd);tone(dd==6?880:500,.15,'triangle',.15);rolled=true;busy=false;afterRoll();
+ dice.classList.remove('roll');dd=1+Math.random()*6|0;face(dd);tone(dd==6?880:500,.15,'triangle',.15);buzz(dd==6?70:30);rolled=true;busy=false;afterRoll();
 }
 function afterRoll(){
  if(game=='sl')return slAfter();
@@ -203,7 +209,7 @@ function afterRoll(){
  if(!mv.length){msg(NAMES[turn]+' rolled '+dd+'. No moves');setTimeout(()=>pass(false),1000);return}
  if(!isH(turn)){setTimeout(()=>move(ai(mv)),700);return}
  if(mv.length==1||mv.every(i=>S[turn][i]<0)){setTimeout(()=>move(mv[0]),400);return}
- msg('Tap a bouncing pawn');mv.forEach(i=>el[turn][i].classList.add('can'));
+ msg('Tap a bouncing pawn');mv.forEach(i=>{el[turn][i].classList.add('can');ring(turn,i)});
 }
 function hits(p,nr){
  if(nr>50)return false;const a=(p*13+nr)%52;if(SAFE.has(a))return false;
@@ -221,7 +227,7 @@ function ai(mv){
 }
 async function move(i){
  const p=turn,r=S[p][i];busy=true;rolled=false;
- el[p].forEach(e=>e.classList.remove('can'));
+ el[p].forEach(e=>e.classList.remove('can'));clearRings();
  el[p][i].style.zIndex=9;
  if(r<0){S[p][i]=0;render();tone(660,.12,'triangle')}
  else for(let k=1;k<=dd;k++){S[p][i]=r+k;render();const e=el[p][i];e.classList.remove('hop');void e.offsetWidth;e.classList.add('hop');tone(420+k*30,.07,'sine',.1);await sleep(180)}
@@ -229,9 +235,9 @@ async function move(i){
  const nr=S[p][i];let cap=false;
  if(hits(p,nr)){const a=(p*13+nr)%52;
   for(let q=0;q<4;q++)if(q!=p)for(let j=0;j<4;j++){const rq=S[q][j];if(rq>=0&&rq<=50&&(q*13+rq)%52==a){S[q][j]=-1;cap=true}}
-  tone(500,.12,'sawtooth',.12);tone(300,.2,'sawtooth',.12,.1);tone(180,.3,'sawtooth',.12,.2);}
+  tone(500,.12,'sawtooth',.12);tone(300,.2,'sawtooth',.12,.1);tone(180,.3,'sawtooth',.12,.2);buzz(110)}
  render();busy=false;
- if(nr==56)[523,659,784].forEach((f,k)=>tone(f,.2,'triangle',.15,k*.1));
+ if(nr==56){[523,659,784].forEach((f,k)=>tone(f,.2,'triangle',.15,k*.1));buzz(80)}
  if(S[p].every(x=>x==56)){over=true;dice.disabled=true;win(p);return}
  const extra=dd==6||cap||nr==56;
  if(extra)msg(NAMES[p]+(cap?' captured a pawn! Roll again':nr==56?' is home! Roll again':' rolled a 6! Roll again'));
@@ -243,7 +249,7 @@ function pass(extra){
 }
 function win(p){
  try{localStorage.removeItem('ludo')}catch(e){}
- render();msg('🏆 '+NAMES[p]+' wins!');
+ render();buzz(300);msg('🏆 '+NAMES[p]+' wins!');
  [523,659,784,1047].forEach((f,k)=>tone(f,.3,'triangle',.18,k*.15));
  for(let i=0;i<70;i++){const c=document.createElement('div');c.className='cf';c.style.left=Math.random()*100+'vw';c.style.background=col(i%4);c.style.animationDuration=(2+Math.random()*2.5)+'s';c.style.animationDelay=Math.random()*.8+'s';document.body.appendChild(c);setTimeout(()=>c.remove(),5500)}
  setTimeout(()=>{showMenu('🏆 '+NAMES[p]+' wins! Play again?')},2800);
