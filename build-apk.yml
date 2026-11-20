@@ -1,0 +1,346 @@
+name: Build Ludo Android APK
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/build-apk.yml'
+      - 'index.html'
+      - 'icon-192.png'
+      - 'icon-512.png'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+
+      - name: Restore signing key
+        uses: actions/cache@v4
+        with:
+          path: ludo-release.jks
+          key: ludo-signing-key-v1
+
+      - name: Create signing key (first time only)
+        run: |
+          if [ ! -f ludo-release.jks ]; then
+            keytool -genkeypair -keystore ludo-release.jks -storepass ludo-pass-123 -keypass ludo-pass-123 -alias ludo -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Ludo Game, O=Ashik Mangalan, C=IN"
+          fi
+
+      - name: Create Android project
+        run: |
+          mkdir -p android/app/src/main/java/com/ashik/ludo
+
+          cat > android/settings.gradle <<'EOF'
+          pluginManagement {
+              repositories {
+                  google()
+                  mavenCentral()
+                  gradlePluginPortal()
+              }
+          }
+          dependencyResolutionManagement {
+              repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+              repositories {
+                  google()
+                  mavenCentral()
+              }
+          }
+          rootProject.name = "LudoGame"
+          include(":app")
+          EOF
+
+          cat > android/build.gradle <<'EOF'
+          plugins {
+              id 'com.android.application' version '8.7.3' apply false
+          }
+          EOF
+
+          cat > android/app/build.gradle <<'EOF'
+          plugins {
+              id 'com.android.application'
+          }
+
+          android {
+              namespace 'com.ashik.ludo'
+              compileSdk 35
+
+              defaultConfig {
+                  applicationId 'com.ashik.ludo'
+                  minSdk 23
+                  targetSdk 35
+                  versionCode 3
+                  versionName '3.0'
+              }
+
+              signingConfigs {
+                  release {
+                      storeFile file(System.getenv('KS_PATH'))
+                      storePassword 'ludo-pass-123'
+                      keyAlias 'ludo'
+                      keyPassword 'ludo-pass-123'
+                  }
+              }
+
+              buildTypes {
+                  release {
+                      signingConfig signingConfigs.release
+                      minifyEnabled false
+                  }
+              }
+
+              lint {
+                  checkReleaseBuilds false
+                  abortOnError false
+              }
+          }
+          EOF
+
+          cat > android/app/src/main/AndroidManifest.xml <<'EOF'
+          <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+              <uses-permission android:name="android.permission.VIBRATE" />
+              <application
+                  android:icon="@mipmap/ic_launcher"
+                  android:roundIcon="@mipmap/ic_launcher"
+                  android:theme="@style/LudoTheme"
+                  android:label="LUDO GAME"
+                  android:hardwareAccelerated="true">
+                  <activity
+                      android:name=".MainActivity"
+                      android:exported="true"
+                      android:screenOrientation="portrait"
+                      android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout|uiMode">
+                      <intent-filter>
+                          <action android:name="android.intent.action.MAIN" />
+                          <category android:name="android.intent.category.LAUNCHER" />
+                      </intent-filter>
+                  </activity>
+              </application>
+          </manifest>
+          EOF
+
+          cat > android/app/src/main/java/com/ashik/ludo/MainActivity.java <<'EOF'
+          package com.ashik.ludo;
+
+          import android.annotation.SuppressLint;
+          import android.app.Activity;
+          import android.content.Context;
+          import android.graphics.Color;
+          import android.os.Build;
+          import android.os.Bundle;
+          import android.os.VibrationEffect;
+          import android.os.Vibrator;
+          import android.view.View;
+          import android.view.WindowInsets;
+          import android.view.WindowInsetsController;
+          import android.view.WindowManager;
+          import android.webkit.JavascriptInterface;
+          import android.webkit.ValueCallback;
+          import android.webkit.WebChromeClient;
+          import android.webkit.WebResourceRequest;
+          import android.webkit.WebSettings;
+          import android.webkit.WebView;
+          import android.webkit.WebViewClient;
+
+          public class MainActivity extends Activity {
+
+              private WebView webView;
+
+              public class Bridge {
+                  @JavascriptInterface
+                  public void vibrate(int ms) {
+                      try {
+                          Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                          if (v == null || !v.hasVibrator()) return;
+                          if (Build.VERSION.SDK_INT >= 26) {
+                              v.vibrate(VibrationEffect.createOneShot(ms, VibrationEffect.DEFAULT_AMPLITUDE));
+                          } else {
+                              v.vibrate(ms);
+                          }
+                      } catch (Exception e) {
+                          // ignore
+                      }
+                  }
+              }
+
+              @SuppressLint({"SetJavaScriptEnabled", "JavascriptInterface"})
+              @Override
+              protected void onCreate(Bundle savedInstanceState) {
+                  super.onCreate(savedInstanceState);
+
+                  getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                  getWindow().getDecorView().setBackgroundColor(Color.parseColor("#0F2470"));
+
+                  if (Build.VERSION.SDK_INT >= 28) {
+                      WindowManager.LayoutParams lp = getWindow().getAttributes();
+                      lp.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+                      getWindow().setAttributes(lp);
+                  }
+
+                  webView = new WebView(this);
+                  webView.setBackgroundColor(Color.parseColor("#0F2470"));
+                  webView.setOverScrollMode(View.OVER_SCROLL_NEVER);
+                  webView.setVerticalScrollBarEnabled(false);
+                  webView.setHorizontalScrollBarEnabled(false);
+                  webView.setHapticFeedbackEnabled(false);
+                  webView.setOnLongClickListener(new View.OnLongClickListener() {
+                      @Override
+                      public boolean onLongClick(View v) {
+                          return true;
+                      }
+                  });
+                  setContentView(webView);
+
+                  WebSettings settings = webView.getSettings();
+                  settings.setJavaScriptEnabled(true);
+                  settings.setDomStorageEnabled(true);
+                  settings.setMediaPlaybackRequiresUserGesture(false);
+                  settings.setSupportZoom(false);
+                  settings.setBuiltInZoomControls(false);
+                  settings.setTextZoom(100);
+                  settings.setAllowContentAccess(false);
+
+                  webView.addJavascriptInterface(new Bridge(), "AndroidBridge");
+
+                  webView.setWebViewClient(new WebViewClient() {
+                      @Override
+                      public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                          return !request.getUrl().toString().startsWith("file:///android_asset/");
+                      }
+                  });
+                  webView.setWebChromeClient(new WebChromeClient());
+
+                  webView.loadUrl("file:///android_asset/index.html");
+              }
+
+              private void hideSystemBars() {
+                  if (Build.VERSION.SDK_INT >= 30) {
+                      getWindow().setDecorFitsSystemWindows(false);
+                      WindowInsetsController c = getWindow().getInsetsController();
+                      if (c != null) {
+                          c.hide(WindowInsets.Type.statusBars() | WindowInsets.Type.navigationBars());
+                          c.setSystemBarsBehavior(WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
+                      }
+                  } else {
+                      getWindow().getDecorView().setSystemUiVisibility(
+                          View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                          | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                          | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                          | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                          | View.SYSTEM_UI_FLAG_FULLSCREEN
+                          | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+                  }
+              }
+
+              @Override
+              public void onWindowFocusChanged(boolean hasFocus) {
+                  super.onWindowFocusChanged(hasFocus);
+                  if (hasFocus) hideSystemBars();
+              }
+
+              @Override
+              protected void onResume() {
+                  super.onResume();
+                  webView.onResume();
+              }
+
+              @Override
+              protected void onPause() {
+                  webView.onPause();
+                  super.onPause();
+              }
+
+              @Override
+              protected void onDestroy() {
+                  webView.destroy();
+                  super.onDestroy();
+              }
+
+              @Override
+              public void onBackPressed() {
+                  // In a game: go back to the menu. On the menu: leave the app.
+                  String js = "(typeof goBack==='function'?goBack():'exit')";
+                  webView.evaluateJavascript(js, new ValueCallback<String>() {
+                      @Override
+                      public void onReceiveValue(String value) {
+                          if (value == null || value.contains("exit")) {
+                              finish();
+                          }
+                      }
+                  });
+              }
+          }
+          EOF
+
+      - name: Add app icon and theme
+        run: |
+          command -v convert >/dev/null || sudo apt-get install -y imagemagick
+          RES=android/app/src/main/res
+          # Old-style icons (Android 7 and below)
+          for pair in mdpi:48 hdpi:72 xhdpi:96 xxhdpi:144 xxxhdpi:192; do
+            d=${pair%%:*}; s=${pair##*:}
+            mkdir -p $RES/mipmap-$d
+            convert icon-512.png -resize ${s}x${s} $RES/mipmap-$d/ic_launcher.png
+          done
+          # Adaptive icon foreground (Android 8+): art fills the centre two-thirds of a 108dp canvas
+          for pair in mdpi:108 hdpi:162 xhdpi:216 xxhdpi:324 xxxhdpi:432; do
+            d=${pair%%:*}; f=${pair##*:}; a=$((f * 2 / 3))
+            convert icon-512.png -resize ${a}x${a} -background none -gravity center -extent ${f}x${f} $RES/mipmap-$d/ic_launcher_foreground.png
+          done
+          mkdir -p $RES/mipmap-anydpi-v26 $RES/values
+          cat > $RES/mipmap-anydpi-v26/ic_launcher.xml <<'EOF'
+          <?xml version="1.0" encoding="utf-8"?>
+          <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+              <background android:drawable="@color/ic_launcher_background"/>
+              <foreground android:drawable="@mipmap/ic_launcher_foreground"/>
+          </adaptive-icon>
+          EOF
+          cat > $RES/values/colors.xml <<'EOF'
+          <?xml version="1.0" encoding="utf-8"?>
+          <resources>
+              <color name="ic_launcher_background">#0F2470</color>
+          </resources>
+          EOF
+          cat > $RES/values/styles.xml <<'EOF'
+          <?xml version="1.0" encoding="utf-8"?>
+          <resources>
+              <style name="LudoTheme" parent="@android:style/Theme.Material.NoActionBar">
+                  <item name="android:windowBackground">@color/ic_launcher_background</item>
+                  <item name="android:windowFullscreen">true</item>
+                  <item name="android:statusBarColor">@color/ic_launcher_background</item>
+                  <item name="android:navigationBarColor">@color/ic_launcher_background</item>
+              </style>
+          </resources>
+          EOF
+
+      - name: Put the game inside the app
+        run: |
+          ASSETS=android/app/src/main/assets
+          mkdir -p $ASSETS
+          cp index.html icon-192.png $ASSETS/
+
+      - name: Build APK
+        env:
+          KS_PATH: ${{ github.workspace }}/ludo-release.jks
+        run: |
+          cd android
+          gradle assembleRelease
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: LUDO-GAME-APK
+          path: android/app/build/outputs/apk/release/app-release.apk
