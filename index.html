@@ -546,88 +546,87 @@ button{font-family:inherit;color:inherit}
 #splash .ld{height:7px;background:rgba(255,255,255,.12);border:1px solid rgba(255,224,145,.45);box-shadow:0 0 0 2px #0005,0 4px 14px #0008}
 #splash .ld i{background:linear-gradient(180deg,#fff2ad,#f2c65d 45%,#b77b25);box-shadow:0 0 12px #ffdb7a99}
 
+</style><style>
+/* Palette-preserving polish: deep teal + mint, matching the supplied home screen */
+:root{--motion-fast:150ms;--motion-smooth:260ms;--mint:#83f6df;--mint-strong:#35d9c1;--mint-soft:rgba(91,239,213,.16);--teal-line:rgba(105,239,220,.24)}
+.ov>.in{animation:teal-screen-in .34s cubic-bezier(.2,.75,.25,1) both}
+@keyframes teal-screen-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.ov .card,.ov .tcard{transition:transform var(--motion-smooth) ease,border-color var(--motion-smooth) ease,box-shadow var(--motion-smooth) ease}
+.ov .btn{position:relative;overflow:hidden;isolation:isolate;transition:transform var(--motion-fast) ease,filter var(--motion-fast) ease,box-shadow var(--motion-fast) ease}
+.ov .btn::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(112deg,transparent 22%,rgba(255,255,255,.22) 48%,transparent 72%);transform:translateX(-135%);transition:transform .52s ease}
+.ov .btn:focus-visible,.ib:focus-visible{outline:2px solid var(--mint);outline-offset:3px}
+.ov .btn:active{transform:translateY(2px) scale(.98)}
+#menu .hero .lg{filter:drop-shadow(0 10px 18px #0009) drop-shadow(0 0 16px rgba(77,237,211,.18));animation:mint-logo-breathe 4.8s ease-in-out infinite}
+@keyframes mint-logo-breathe{0%,100%{filter:drop-shadow(0 10px 18px #0009) drop-shadow(0 0 12px rgba(77,237,211,.12))}50%{filter:drop-shadow(0 12px 22px #000b) drop-shadow(0 0 23px rgba(77,237,211,.28))}}
+#menu .card{position:relative;overflow:hidden}
+#menu .card::before{content:"";position:absolute;inset:0 14% auto;height:1px;background:linear-gradient(90deg,transparent,rgba(119,255,225,.42),transparent);pointer-events:none}
+#menu .tiles .btn,#menu .foot .btn{min-height:52px}
+#menu #score{border-radius:999px;letter-spacing:.2px}
+#tut .tcard h2,#winov #wname,#tdots b.on{color:var(--mint)!important}
+#tdots b.on{background:var(--mint-strong)!important;box-shadow:0 0 10px rgba(53,217,193,.45)!important}
+#sets .srow,#setup .srow{transition:border-color var(--motion-smooth) ease,background var(--motion-smooth) ease,transform var(--motion-smooth) ease}
+#top .ib{transition:transform var(--motion-fast) ease,background-color var(--motion-fast) ease,box-shadow var(--motion-fast) ease}
+#top .ib:active{transform:scale(.92)}
+.chip{transition:transform var(--motion-smooth) ease,border-color var(--motion-smooth) ease,box-shadow var(--motion-smooth) ease}
+#msg{transition:background-color var(--motion-smooth) ease,border-color var(--motion-smooth) ease}
+@media(hover:hover){.ov .btn:hover{filter:brightness(1.08);transform:translateY(-2px);box-shadow:0 7px 16px #0004,0 0 14px rgba(67,225,202,.12),inset 0 1px 0 #ffffff20}.ov .btn:hover::after{transform:translateX(135%)}.ov .card:hover{border-color:var(--teal-line);box-shadow:0 8px 22px rgba(0,0,0,.16),0 0 16px rgba(67,225,202,.06)}#top .ib:hover{background-color:rgba(105,239,220,.12);transform:translateY(-1px)}}
+@media(prefers-reduced-motion:reduce){.ov>.in,#menu .hero .lg{animation:none!important}.ov .btn,.ov .card,.ov .tcard,.chip,#top .ib{transition:none!important}.ov .btn::after{display:none}}
+</style>
 
-
-/* ===== OPPO-INSPIRED MODERN COLOR SYSTEM ===== */
+<style id="fixed-teal-palette">
+/* FINAL PALETTE LOCK — match the supplied dark-teal + mint home screen */
 :root{
- --app-bg:#07131b; --app-panel:#10232d; --app-panel2:#163542;
- --app-teal:#36e0c0; --app-teal2:#13bfa8; --app-silver:#e8f4f5;
- --app-muted:#9bb8bd; --app-line:rgba(100,226,208,.24);
+ --ui-bg:#071d23 !important;
+ --ui-panel:rgba(11,43,49,.94) !important;
+ --ui-line:rgba(112,244,220,.24) !important;
+ --ui-muted:#a9c9c8 !important;
+ --ui-text:#e9fffb !important;
+ --ui-accent:#80f3d9 !important;
+ --screen-navy:#071d23 !important;
+ --screen-blue:#0b3037 !important;
+ --screen-blue2:#14515a !important;
+ --screen-gold:#80f3d9 !important;
+ --screen-gold-light:#c1fff0 !important;
+ --screen-gold-dark:#168d82 !important;
+ --screen-ink:#eafffb !important;
+ --screen-muted:#a9c9c8 !important;
+ --hud-glass:rgba(7,31,37,.82) !important;
+ --hud-stroke:rgba(117,244,220,.22) !important;
+ --hud-gold:#80f3d9 !important;
+ --mint:#83f6df; --mint-strong:#35d9c1;
 }
-/* Menus, setup, settings, tutorial and winner overlays */
+html,body{background-color:#071d23 !important}
+body{background-color:#071d23 !important}
 .ov{
- color:var(--app-silver)!important;
- background:
-  radial-gradient(ellipse at 50% 8%,rgba(35,190,171,.20),transparent 42%),
-  radial-gradient(ellipse at 50% 100%,rgba(24,91,110,.24),transparent 50%),
-  linear-gradient(145deg,#06121a 0%,#102833 52%,#07151d 100%)!important;
+ color:#eafffb !important;
+ background:radial-gradient(ellipse at 50% 16%,rgba(45,190,169,.20),transparent 46%),radial-gradient(ellipse at 50% 100%,rgba(16,91,91,.20),transparent 54%),linear-gradient(145deg,#061a20 0%,#0b2b32 52%,#071e25 100%) !important;
 }
-.ov:before{opacity:.12;background-image:radial-gradient(circle,rgba(112,245,222,.8) 0 1px,transparent 1.8px)}
-.ov .hd{
- color:#c7fff3!important;
- background:linear-gradient(180deg,rgba(4,17,24,.96),rgba(12,37,46,.92))!important;
- border-bottom:1px solid var(--app-line)!important;
- box-shadow:0 5px 18px #0006;
- text-shadow:0 0 14px rgba(54,224,192,.24)!important;
+.ov::before{background-image:radial-gradient(circle,rgba(128,243,217,.34) 0 1px,transparent 1.8px) !important;opacity:.12 !important}
+.ov .hd,.hd{
+ color:#a2f8e5 !important;text-shadow:0 2px 8px rgba(0,0,0,.5) !important;
+ background:linear-gradient(180deg,rgba(8,40,46,.96),rgba(8,40,46,.55)) !important;
+ border-bottom-color:rgba(128,243,217,.18) !important;
 }
-.ov .card,.ov .tcard{
- border:1px solid rgba(74,225,203,.34)!important;
- background:linear-gradient(145deg,rgba(22,55,66,.97),rgba(9,29,39,.98))!important;
- box-shadow:0 12px 28px #0007,inset 0 1px 0 #ffffff14,0 0 0 1px rgba(48,190,174,.08)!important;
- border-radius:18px!important;
+#app{background:radial-gradient(ellipse at 50% 42%,#16434a 0%,#0b3038 48%,#071d24 100%) !important}
+#top{background:linear-gradient(180deg,rgba(5,27,32,.94),rgba(5,27,32,.55)) !important;border-bottom-color:rgba(128,243,217,.16) !important}
+.ov .card,.ov .tcard,.ov .srow,.ov .seg,.ov .strip{
+ background:linear-gradient(145deg,rgba(12,49,55,.96),rgba(8,34,41,.96)) !important;
+ border-color:rgba(128,243,217,.28) !important;
+ box-shadow:0 10px 26px rgba(0,0,0,.28),inset 0 1px 0 rgba(205,255,245,.07) !important;
 }
-.ov .card:before,.ov .tcard:before{border-color:rgba(126,255,230,.09)!important}
-.ov .lbl{color:#8ff5df!important;text-shadow:none!important}
-.ov #sub{color:#a9c7ce!important}
-.ov .btn{
- border:1px solid rgba(103,231,212,.25)!important;
- border-radius:13px!important;
- background:linear-gradient(180deg,#245465 0%,#163b49 100%)!important;
- color:#e9ffff!important;
- box-shadow:0 4px 0 #061920,0 7px 14px #0006,inset 0 1px 0 #ffffff20!important;
- text-shadow:none!important;
-}
-.ov .btn.b0,.ov .btn.gold,.ov #splay,.ov #sdone,.ov #tnext,.ov #wagain,.ov #quick{
- border-color:#9bffea!important;
- background:linear-gradient(180deg,#8af5dc 0%,#3ed9bd 48%,#13aa98 100%)!important;
- color:#052b2b!important;
- box-shadow:0 4px 0 #087a70,0 7px 14px #0007,inset 0 2px 2px #eafffa!important;
- font-weight:800;
-}
-.ov .btn.b1,.ov .btn.b5{background:linear-gradient(180deg,#367f91,#205366)!important;border-color:#6ccfcb!important}
-.ov .btn.b2,.ov .btn.b3,.ov .btn.b4,.ov .btn.red{background:linear-gradient(180deg,#1b3c49,#102a36)!important;border-color:rgba(141,190,194,.22)!important;color:#d8ebed!important}
-.ov .btn.sg.on{background:linear-gradient(180deg,#8af5dc,#2dcbb2)!important;color:#052b2b!important}
-.ov .srow{background:linear-gradient(145deg,rgba(5,22,30,.88),rgba(20,52,62,.92))!important;border-color:rgba(75,215,196,.22)!important}
-.ov .srow input{color:#f1ffff!important}
-.ov .srow input::placeholder{color:#88aeb4!important}
-.ov .seg{background:rgba(3,16,23,.5)!important;border-color:rgba(75,215,196,.18)!important}
-#menu #score{background:rgba(67,214,190,.07)!important;border-color:var(--app-line)!important;color:#a9c8ca!important}
-#tut .tcard{background:linear-gradient(150deg,#1b4855,#0c2834)!important;border-color:rgba(91,237,213,.46)!important}
-#tut .tcard h2{color:#8ff5df!important;text-shadow:none!important}
-#tut .tcard p{color:#c2dadd!important}
-#tdots b.on{background:#55e5cb!important;box-shadow:0 0 10px #55e5cb77!important}
-#winov #wname{color:#8ff5df!important;text-shadow:0 0 18px #37d9bf55!important}
-#winov .wr.first{color:#8ff5df!important}
-#winov .card{border-color:rgba(84,231,208,.42)!important}
-/* Splash */
-#splash{
- background:radial-gradient(ellipse at 50% 42%,rgba(35,190,171,.23),transparent 48%),linear-gradient(145deg,#06121a,#123440 52%,#06121a)!important;
-}
-#splash::before{background:radial-gradient(circle,rgba(54,224,192,.20),rgba(30,133,137,.06) 48%,transparent 70%)!important}
-#splash::after{color:rgba(181,239,231,.65)!important}
-#splash p{color:#d8fff7!important}
-#splash .ld{border-color:rgba(128,244,224,.4)!important}
-#splash .ld i{background:linear-gradient(90deg,#0c9f91,#9affeb 48%,#20c9b0)!important;box-shadow:0 0 12px rgba(67,232,205,.65)!important}
-/* In-game HUD only; the actual Ludo board and its four player colours stay intact */
-#app{background:radial-gradient(ellipse at 50% 42%,#1a4650 0%,#102b37 48%,#071720 100%)!important}
-#top{background:linear-gradient(180deg,rgba(4,17,23,.92),rgba(4,17,23,.42))!important;border-bottom:1px solid rgba(103,231,212,.15)!important}
-.ib{background-color:rgba(74,208,190,.09)!important;border-color:rgba(103,231,212,.18)!important}
-.chip{border-color:rgba(103,231,212,.20)!important;background:linear-gradient(145deg,rgba(20,57,67,.97),rgba(8,27,36,.96))!important}
-.chip.on{border-color:#67ead1!important;background:linear-gradient(145deg,rgba(28,94,87,.98),rgba(13,48,52,.98))!important;box-shadow:0 0 0 1px #67ead155,0 0 18px #46d9c333,0 7px 18px #0006!important}
-.chip.on .pn{color:#aaffed!important}
-#msg{border-color:rgba(103,231,212,.18)!important;background:rgba(4,19,26,.84)!important;color:#e2f7f5!important}
+.ov .lbl,.ov .tcard h2,.ov .wr.first,#wname{color:#9af5df !important}
+.ov .srow input,.ov .srow input::placeholder{color:#eafffb !important}
+#sub,#score{background:rgba(8,48,54,.82) !important;box-shadow:0 0 0 2px rgba(128,243,217,.26) !important;color:#b9fbed !important}
+.strip{box-shadow:0 4px 10px #0008,0 0 0 2px rgba(128,243,217,.55) !important}
+#tdots b.on{background:#80f3d9 !important;box-shadow:0 0 9px #55e8cf !important}
+.ov .btn:focus-visible,.ib:focus-visible{outline-color:#a9ffec !important}
+#splash{background:radial-gradient(ellipse at 50% 44%,rgba(41,190,170,.24),transparent 46%),radial-gradient(ellipse at 50% 100%,rgba(16,91,91,.22),transparent 55%),linear-gradient(145deg,#061a20,#0b3037 52%,#071e25) !important}
+#splash .ld{border-color:rgba(128,243,217,.5) !important}
+#splash .ld i{background:linear-gradient(180deg,#c8fff2,#43dfc3 48%,#168f83) !important;box-shadow:0 0 12px rgba(77,237,207,.55) !important}
+@media(prefers-reduced-motion:reduce){.ov>.in,.hero .lg,#splash .lg{animation:none !important}}
+</style>
 
-</style></head><body>
+</head><body>
 <div id="app">
 <div id="top"><div class="tlogo"></div><div class="grow"></div><button class="ib" id="snd" aria-label="Sound"></button><button class="ib" id="mus" aria-label="Music"></button><button class="ib" id="mnu" aria-label="Menu"></button></div>
 <div id="mid">
