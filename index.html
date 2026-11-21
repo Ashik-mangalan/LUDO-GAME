@@ -231,6 +231,13 @@ body[data-frame=sky] #bwrap{filter:drop-shadow(0 0 14px #4db8ff) drop-shadow(0 0
 .onp.wait{opacity:.45;font-weight:600}
 .onmsg{text-align:center;font:600 13px Poppins;color:#ffd75a;min-height:18px}
 .onhint{text-align:center;font:500 12px Poppins;color:#9fd8d0}
+</style><style>
+#topRow{display:flex;align-items:center;justify-content:space-between;position:fixed;top:calc(10px + env(safe-area-inset-top));left:14px;right:14px;z-index:3}
+#topRow #profileCorner{align-self:auto}
+#gset{width:44px;height:40px;display:flex;align-items:center;justify-content:center;padding:0;border:1.5px solid #3de8c8aa;border-radius:20px;background:linear-gradient(180deg,#14596d,#08303f);color:#cffff5;box-shadow:0 3px 0 #031820;cursor:pointer}
+#gset:active{transform:translateY(2px)}
+.hd .hdi{display:inline-flex;margin-right:10px;color:var(--ac);filter:drop-shadow(0 0 8px #19e6c688)}
+#menu .foot{justify-content:center}#menu .foot .btn{max-width:60%}
 </style></head><body>
 <div id="app">
 <div id="top"><div class="tlogo"></div><div class="grow"></div><button class="ib" id="snd" aria-label="Sound"></button><button class="ib" id="mus" aria-label="Music"></button><button class="ib" id="mnu" aria-label="Menu"></button></div>
@@ -242,18 +249,18 @@ body[data-frame=sky] #bwrap{filter:drop-shadow(0 0 14px #4db8ff) drop-shadow(0 0
 </div>
 <button id="dice" aria-label="Roll the dice"></button>
 </div>
-<div id="menu" class="ov"><div class="rays"></div><div class="in"><button id="profileCorner" aria-label="Open player profile"><span class="pcav">🙂</span><span class="pnm">PROFILE</span></button><div class="hero"><div class="lg"></div><p id="sub">Roll, race and capture!</p></div>
+<div id="menu" class="ov"><div class="rays"></div><div class="in"><div id="topRow"><button id="profileCorner" aria-label="Open player profile"><span class="pcav">🙂</span><span class="pnm">PROFILE</span></button><button id="gset" aria-label="Settings"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button></div><div class="hero"><div class="lg"></div><p id="sub">Roll, race and capture!</p></div>
 <button class="btn b1" id="cont" style="display:none">Resume game</button>
 <button class="btn gold big" id="quick">Quick play</button>
 <div class="card"><div class="lbl">Ludo</div><div class="tiles"><button class="btn b0" id="tCpu">vs Computer</button><button class="btn b1" id="tPass">Pass N Play</button></div><button class="btn b3" id="tOnline" style="margin-top:8px;width:100%">🌐 Play online</button></div>
 <div class="card"><div class="lbl">Snakes &amp; Ladders</div><div class="tiles"><button class="btn b5" id="tSlCpu">vs Computer</button><button class="btn b3" id="tSlPass">Pass N Play</button></div></div>
-<div class="foot"><button class="btn b4 sm" id="howto">How to play</button><button class="btn b4 sm" id="gset">Settings</button></div>
+<div class="foot"><button class="btn b4 sm" id="howto">How to play</button></div>
 <p id="score"></p></div></div>
 <div id="setup" class="ov hide"><div class="rays"></div><div class="hd" id="stitle">Game setup</div><div class="in">
 <div class="card"><div class="lbl">Players</div><div class="seg" id="pc"><button class="btn sg" data-n="2">2 players</button><button class="btn sg" data-n="3">3 players</button><button class="btn sg" data-n="4">4 players</button></div>
 <div class="lbl" style="margin-top:2px">Names</div><div id="rows" style="display:flex;flex-direction:column;gap:2px"></div></div>
 <button class="btn b0" id="splay">Play</button><button class="btn b2 sm" id="sback">Back</button></div></div>
-<div id="sets" class="ov hide"><div class="rays"></div><div class="hd">Settings</div><div class="in">
+<div id="sets" class="ov hide"><div class="rays"></div><div class="hd"><span class="hdi"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></span>Settings</div><div class="in">
 <div class="card"><div class="lbl">Computer level</div><div class="seg" id="lvseg"><button class="btn sg" data-l="0">Easy</button><button class="btn sg" data-l="1">Medium</button><button class="btn sg" data-l="2">Hard</button></div>
 <div class="lbl" style="margin-top:4px">Sound</div><button class="btn b4 sm" id="sfx"></button><button class="btn b4 sm" id="mus2"></button>
 <div class="lbl" style="margin-top:4px">Scoreboard</div><button class="btn red sm" id="nclear">Clear scoreboard</button></div>
@@ -718,9 +725,9 @@ if('serviceWorker' in navigator&&location.protocol.startsWith('http'))addEventLi
  content.addEventListener('click',e=>{let p=e.target.closest('[data-page]');if(p){go(p.dataset.page);return}let cat=e.target.closest('[data-anime]');if(cat){const item=animeCatalog.find(x=>x[0]===cat.dataset.anime);if(item)loadAnime(item);return}let bi=e.target.closest('[data-builtin]');if(bi){const b=BUILTIN.find(x=>x[0]===bi.dataset.builtin);if(b){notice='';if(!ownAv(b[0])){const c=avCost(b[0]);if(spend(c)){data.owned.push(b[0]);notice=b[2]+' unlocked!'}else{notice='Not enough coins. You need '+c+' 🪙 — win matches to earn more.';render();return}}data.avatar={builtin:b[0],name:b[2]};save();render()}return}let em=e.target.closest('[data-emoji]');if(em){data.avatar=em.dataset.emoji;save();render();return}let av=e.target.closest('[data-avatar-choice]');if(av){const c=avatarChars.find(x=>String(x.id)===av.dataset.avatarChoice);if(c){const picked={id:c.id,name:c.name,image:c.image,anime:avatarAnime?.[0]||''};data.avatar=picked;save();render();(async()=>{try{let blob;if(c.image.startsWith('blob:')){const rr=await tfetch(c.image);blob=await rr.blob()}else{const rr=await tfetch(c.image,{mode:'cors'});blob=await rr.blob()}picked.image=await blobData(blob);data.avatar=picked;save();if(!hub.classList.contains('hide'))render()}catch(_){}})()}return}let a=e.target.closest('[data-act]');if(a)action(a.dataset.act)});
  content.addEventListener('input',e=>{if(e.target.id==='animeCatSearch'||e.target.id==='animeCharSearch'){const pos=e.target.selectionStart;avatarFilter=e.target.value;render();const next=$id(e.target.id);if(next){next.focus();next.setSelectionRange(pos,pos)}}});
  $id('fhClose').onclick=close;
- $id('profileCorner').onclick=()=>open('profile');
+ $id('profileCorner').onclick=()=>open('home');
  const entry=document.createElement('button');entry.id='featureEntry';entry.textContent='PLAYER CENTER · 11 FEATURES';entry.onclick=()=>open('home');
- const menuIn=document.querySelector('#menu .in');if(menuIn&&!$id('featureEntry')){const foot=document.querySelector('#menu .foot');menuIn.insertBefore(entry,foot)}
+ 
 
  function shareResult(){
   const c=document.createElement('canvas');c.width=1080;c.height=1350;const x=c.getContext('2d');
