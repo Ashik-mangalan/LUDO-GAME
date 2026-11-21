@@ -289,6 +289,344 @@ button{font-family:inherit;color:inherit}
   #winov .trophy{width:105px;height:115px}
 }
 
+
+
+/* ===== FINAL POLISH: unify the in-game HUD with the new screens ===== */
+:root{
+  --hud-glass:rgba(10,18,34,.78);
+  --hud-stroke:rgba(255,255,255,.13);
+  --hud-gold:#f6d477;
+}
+#app{
+  background:radial-gradient(ellipse at 50% 42%,#263b61 0%,#142440 48%,#091326 100%);
+}
+#top{
+  height:calc(56px + env(safe-area-inset-top));
+  padding:env(safe-area-inset-top) 12px 0;
+  background:linear-gradient(180deg,rgba(7,13,26,.88),rgba(7,13,26,.38));
+  border-bottom:1px solid rgba(255,255,255,.09);
+  gap:9px;
+  box-sizing:border-box;
+}
+.tlogo{height:34px;filter:drop-shadow(0 3px 8px #0008)}
+.ib{
+  width:39px;height:39px;border-radius:12px;
+  background-color:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.10);
+  filter:none;background-size:25px 25px;
+}
+.ib:active{background-color:rgba(255,255,255,.17)}
+#mid{gap:3px}
+.row{padding:0 10px;gap:8px}
+.row:first-child{margin-bottom:-1.2vw}
+.row:nth-child(3){margin-top:-1.2vw}
+.chip{
+  width:min(44vw,205px);max-width:none;min-height:54px;aspect-ratio:auto;
+  padding:7px 10px;gap:8px;box-sizing:border-box;
+  border:1px solid var(--hud-stroke);border-radius:15px;
+  background:linear-gradient(145deg,rgba(20,34,58,.96),rgba(9,18,34,.94));
+  box-shadow:0 7px 18px #0005,inset 0 1px 0 #ffffff12;
+  filter:none;
+}
+.chip.r{padding:7px 10px}
+.chip .av{height:34px;filter:drop-shadow(0 2px 3px #0008)}
+.chip .pn{font:700 12px/1.2 Archivo,system-ui,sans-serif;color:#f4f7ff;text-shadow:none}
+.chip .nm{margin-top:3px;font:700 9px/1.1 Poppins,system-ui,sans-serif;color:#b9c8df;text-shadow:none;letter-spacing:.5px}
+.chip .slot{width:32px;max-width:32px}
+.chip.on{
+  border-color:#f6d477aa;
+  background:linear-gradient(145deg,rgba(68,58,35,.98),rgba(27,31,39,.98));
+  box-shadow:0 0 0 1px #f6d47755,0 0 18px #f6d47735,0 7px 18px #0006;
+  animation:none;
+}
+.chip.on .pn{color:#ffe6a0}
+.chip.on .av{animation:bob .7s ease-in-out infinite alternate}
+#msg{
+  min-width:0;max-width:calc(100vw - 34px);min-height:38px;
+  margin:7px auto 0;padding:7px 16px;box-sizing:border-box;
+  border:1px solid rgba(255,255,255,.13);border-radius:14px;
+  background:rgba(7,14,28,.78);box-shadow:0 5px 16px #0004,inset 0 1px 0 #ffffff0c;
+  font:600 12px/1.35 Poppins,system-ui,sans-serif;color:#e7edf8;
+  text-shadow:none;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+}
+#dice{touch-action:manipulation}
+#dice .dv{filter:drop-shadow(0 8px 9px #0008)}
+@media(max-width:380px){
+  .chip{min-height:49px;padding:6px 7px;gap:5px;border-radius:12px}
+  .chip.r{padding:6px 7px}
+  .chip .av{height:29px}
+  .chip .pn{font-size:11px}
+  .chip .nm{font-size:8px}
+  .chip .slot{width:27px;max-width:27px}
+  .ib{width:36px;height:36px;background-size:22px 22px}
+}
+@media(max-height:700px){
+  #top{height:calc(48px + env(safe-area-inset-top))}
+  .tlogo{height:29px}
+  .chip{min-height:46px}
+  .chip .av{height:28px}
+  #msg{min-height:34px;margin-top:4px;padding:5px 12px}
+}
+
+
+/* ===== PREMIUM SPLASH SCREEN REFRESH ===== */
+#splash{
+  isolation:isolate;
+  overflow:hidden;
+  gap:18px;
+  padding:env(safe-area-inset-top) 20px env(safe-area-inset-bottom);
+  box-sizing:border-box;
+  background:
+    radial-gradient(ellipse at 50% 43%, rgba(63,105,210,.34) 0%, rgba(25,49,105,.18) 29%, transparent 58%),
+    radial-gradient(ellipse at 50% 100%, rgba(23,48,105,.42), transparent 52%),
+    linear-gradient(155deg,#080f25 0%,#101d3d 48%,#080d20 100%) !important;
+}
+#splash .rays{display:none !important}
+#splash::before{
+  content:"";
+  position:absolute;
+  width:min(78vw,390px);
+  aspect-ratio:1;
+  left:50%;top:43%;
+  transform:translate(-50%,-50%);
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(76,128,255,.20),rgba(56,92,190,.07) 48%,transparent 70%);
+  filter:blur(5px);
+  z-index:-1;
+}
+#splash::after{
+  content:"CLASSIC BOARD GAME  •  BIG FUN";
+  position:absolute;
+  left:0;right:0;top:calc(50% - min(25vw,115px) - 76px);
+  text-align:center;
+  color:rgba(207,220,255,.66);
+  font:700 10px/1.2 Archivo,sans-serif;
+  letter-spacing:3.2px;
+}
+#splash .lg{
+  width:min(86vw,390px);
+  filter:drop-shadow(0 14px 22px rgba(0,0,0,.62)) drop-shadow(0 0 24px rgba(73,122,255,.28));
+  animation:splashLogoIn .9s cubic-bezier(.2,.85,.25,1) both;
+}
+@keyframes splashLogoIn{
+  from{opacity:0;transform:translateY(18px) scale(.88)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+#splash p{
+  margin-top:0;
+  color:#e6edff;
+  font:600 14px/1.4 Archivo,sans-serif;
+  letter-spacing:1.1px;
+  text-shadow:0 2px 12px rgba(0,0,0,.6);
+}
+#splash .ld{
+  width:min(58vw,230px);
+  height:5px;
+  margin-top:14px;
+  padding:0;
+  border:0;
+  border-radius:99px;
+  overflow:hidden;
+  background:rgba(255,255,255,.14);
+  box-shadow:0 0 0 1px rgba(255,255,255,.08),0 5px 18px rgba(0,0,0,.25);
+}
+#splash .ld i{
+  left:0;top:0;bottom:0;
+  width:0;
+  border-radius:99px;
+  background:linear-gradient(90deg,#b87925 0%,#ffe59a 48%,#d69a36 100%);
+  box-shadow:0 0 12px rgba(255,203,91,.65);
+  animation:ldb 1.7s ease-in-out forwards;
+}
+@media(max-height:740px){
+  #splash .lg{width:min(72vw,310px)}
+  #splash::after{top:calc(50% - min(22vw,95px) - 68px)}
+}
+
+/* ===== MATCH THE PREMIUM LUDO BOARD THEME ACROSS EVERY SCREEN ===== */
+:root{
+  --screen-navy:#08142b;
+  --screen-blue:#12294d;
+  --screen-blue2:#1b3968;
+  --screen-gold:#f4cb62;
+  --screen-gold-light:#fff0ad;
+  --screen-gold-dark:#8b5c19;
+  --screen-ink:#f7f4e9;
+  --screen-muted:#bdcce3;
+}
+/* Shared deep-blue game-table background */
+.ov{
+  color:var(--screen-ink);
+  background:
+    radial-gradient(ellipse at 50% 14%,rgba(73,112,184,.27),transparent 43%),
+    radial-gradient(ellipse at 50% 100%,rgba(25,56,105,.30),transparent 48%),
+    linear-gradient(145deg,#071329 0%,#102448 48%,#08152d 100%) !important;
+}
+.ov .rays{opacity:.12;filter:saturate(.45)}
+.ov:before{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.20;
+  background-image:radial-gradient(circle,rgba(255,220,130,.85) 0 1px,transparent 1.8px);
+  background-size:46px 46px;
+  mask-image:linear-gradient(to bottom,transparent,#000 16%,#000 82%,transparent);
+}
+.ov>.in,.ov>.hd{position:relative;z-index:1}
+/* Header/logo: echo the illuminated game HUD */
+.ov .hero .lg{filter:drop-shadow(0 5px 8px #000b) drop-shadow(0 0 13px #5d91ff55)}
+.ov .hd{
+  background:linear-gradient(180deg,rgba(5,13,29,.94),rgba(13,30,57,.88)) !important;
+  border-bottom:1px solid rgba(244,203,98,.34);
+  box-shadow:0 5px 18px #0005;
+  color:#fff0b6;text-shadow:0 2px 8px #000;
+  letter-spacing:.8px;
+}
+/* Gold-edged glass panels */
+.ov .card,.ov .tcard{
+  position:relative;
+  border:1px solid rgba(244,203,98,.58) !important;
+  border-radius:17px;
+  background:
+    linear-gradient(145deg,rgba(35,62,103,.97),rgba(11,27,54,.98)) !important;
+  box-shadow:0 9px 22px #0008,inset 0 1px 0 #fff3,inset 0 -2px 0 #0005,0 0 0 2px rgba(114,82,30,.20);
+}
+.ov .card:before,.ov .tcard:before{
+  content:"";position:absolute;inset:4px;border-radius:12px;pointer-events:none;
+  border:1px solid rgba(255,226,147,.12);
+}
+.ov .lbl{color:#ffe39a;text-shadow:0 1px 5px #0008;letter-spacing:1.6px}
+.ov #sub{color:#d8e5ff;text-shadow:0 2px 8px #0009}
+/* Glossy gold primary controls and jewel-blue secondary controls */
+.ov .btn{
+  border:1px solid rgba(255,226,150,.40) !important;
+  border-radius:12px;
+  background:linear-gradient(180deg,#365b91 0%,#1b3967 48%,#10274c 100%) !important;
+  color:#f5f7ff !important;
+  box-shadow:0 4px 0 #071326,0 6px 12px #0007,inset 0 1px 0 #ffffff45,inset 0 -2px 0 #0004;
+  text-shadow:0 1px 3px #0008;
+}
+.ov .btn.b0,.ov .btn.gold,.ov #splay,.ov #sdone,.ov #tnext,.ov #wagain,.ov #quick{
+  border-color:#fff0b1 !important;
+  background:linear-gradient(180deg,#fff0a5 0%,#f6d36f 24%,#d99b32 72%,#a96d1e 100%) !important;
+  color:#30200a !important;
+  box-shadow:0 4px 0 #754816,0 7px 14px #0008,inset 0 2px 2px #fff9d8,inset 0 -2px 2px #8e5c1b;
+  text-shadow:0 1px 0 #fff5c9;
+}
+.ov .btn.b1,.ov .btn.b5{
+  background:linear-gradient(180deg,#5a8bc9 0%,#315c98 45%,#193963 100%) !important;
+  border-color:#8fb9ed !important;
+}
+.ov .btn.b2,.ov .btn.b3,.ov .btn.b4,.ov .btn.red{
+  background:linear-gradient(180deg,#29466f,#152b4c) !important;
+  border-color:rgba(170,198,235,.42) !important;color:#e5edff !important;
+}
+.ov .btn:active{filter:brightness(1.16);box-shadow:0 1px 0 #071326,0 3px 7px #0007,inset 0 1px 0 #fff5}
+.ov .btn.sg.on{background:linear-gradient(180deg,#fff0a5,#e6b34d)!important;color:#30200a!important}
+/* Name rows, inputs and segmented selectors */
+.ov .srow{background:linear-gradient(145deg,rgba(9,22,44,.9),rgba(24,48,82,.92));border-color:rgba(244,203,98,.32)}
+.ov .srow input{background:transparent;color:#fff;font-weight:700}
+.ov .srow input::placeholder{color:#9eafca}
+.ov .srow .who{border-radius:9px}
+.ov .seg{padding:3px;border-radius:13px;background:rgba(3,12,27,.42);border:1px solid rgba(244,203,98,.18)}
+/* Tutorial panel gets a framed display-window feel */
+#tut .tcard{border-color:rgba(244,203,98,.72)!important;background:linear-gradient(150deg,#203e69,#0d2040)!important;box-shadow:0 12px 28px #0009,inset 0 1px 0 #fff3,0 0 18px #dca83a18}
+#tut .tcard h2{color:#ffe49a;text-shadow:0 2px 8px #0008}
+#tut .tcard p{color:#d2def1}
+#tut #tdots b.on{background:#ffe08a;box-shadow:0 0 9px #ffd15a}
+/* Winner screen: brighter gold celebration */
+#winov .trophy{filter:drop-shadow(0 8px 12px #000b) drop-shadow(0 0 16px #f5ca5b55)}
+#winov #wname{color:#ffe18a;text-shadow:0 2px 10px #0009}
+#winov .wr.first{color:#ffe18a}
+#winov .card{border-color:#e9c46c!important}
+/* Splash now belongs to the same blue-and-gold world */
+#splash{
+  background:
+    radial-gradient(ellipse at 50% 44%,rgba(67,112,202,.30),transparent 46%),
+    radial-gradient(ellipse at 50% 100%,rgba(31,65,119,.25),transparent 55%),
+    linear-gradient(145deg,#071329,#12294d 52%,#071329) !important;
+}
+#splash .ld{height:7px;background:rgba(255,255,255,.12);border:1px solid rgba(255,224,145,.45);box-shadow:0 0 0 2px #0005,0 4px 14px #0008}
+#splash .ld i{background:linear-gradient(180deg,#fff2ad,#f2c65d 45%,#b77b25);box-shadow:0 0 12px #ffdb7a99}
+
+
+
+/* ===== OPPO-INSPIRED MODERN COLOR SYSTEM ===== */
+:root{
+ --app-bg:#07131b; --app-panel:#10232d; --app-panel2:#163542;
+ --app-teal:#36e0c0; --app-teal2:#13bfa8; --app-silver:#e8f4f5;
+ --app-muted:#9bb8bd; --app-line:rgba(100,226,208,.24);
+}
+/* Menus, setup, settings, tutorial and winner overlays */
+.ov{
+ color:var(--app-silver)!important;
+ background:
+  radial-gradient(ellipse at 50% 8%,rgba(35,190,171,.20),transparent 42%),
+  radial-gradient(ellipse at 50% 100%,rgba(24,91,110,.24),transparent 50%),
+  linear-gradient(145deg,#06121a 0%,#102833 52%,#07151d 100%)!important;
+}
+.ov:before{opacity:.12;background-image:radial-gradient(circle,rgba(112,245,222,.8) 0 1px,transparent 1.8px)}
+.ov .hd{
+ color:#c7fff3!important;
+ background:linear-gradient(180deg,rgba(4,17,24,.96),rgba(12,37,46,.92))!important;
+ border-bottom:1px solid var(--app-line)!important;
+ box-shadow:0 5px 18px #0006;
+ text-shadow:0 0 14px rgba(54,224,192,.24)!important;
+}
+.ov .card,.ov .tcard{
+ border:1px solid rgba(74,225,203,.34)!important;
+ background:linear-gradient(145deg,rgba(22,55,66,.97),rgba(9,29,39,.98))!important;
+ box-shadow:0 12px 28px #0007,inset 0 1px 0 #ffffff14,0 0 0 1px rgba(48,190,174,.08)!important;
+ border-radius:18px!important;
+}
+.ov .card:before,.ov .tcard:before{border-color:rgba(126,255,230,.09)!important}
+.ov .lbl{color:#8ff5df!important;text-shadow:none!important}
+.ov #sub{color:#a9c7ce!important}
+.ov .btn{
+ border:1px solid rgba(103,231,212,.25)!important;
+ border-radius:13px!important;
+ background:linear-gradient(180deg,#245465 0%,#163b49 100%)!important;
+ color:#e9ffff!important;
+ box-shadow:0 4px 0 #061920,0 7px 14px #0006,inset 0 1px 0 #ffffff20!important;
+ text-shadow:none!important;
+}
+.ov .btn.b0,.ov .btn.gold,.ov #splay,.ov #sdone,.ov #tnext,.ov #wagain,.ov #quick{
+ border-color:#9bffea!important;
+ background:linear-gradient(180deg,#8af5dc 0%,#3ed9bd 48%,#13aa98 100%)!important;
+ color:#052b2b!important;
+ box-shadow:0 4px 0 #087a70,0 7px 14px #0007,inset 0 2px 2px #eafffa!important;
+ font-weight:800;
+}
+.ov .btn.b1,.ov .btn.b5{background:linear-gradient(180deg,#367f91,#205366)!important;border-color:#6ccfcb!important}
+.ov .btn.b2,.ov .btn.b3,.ov .btn.b4,.ov .btn.red{background:linear-gradient(180deg,#1b3c49,#102a36)!important;border-color:rgba(141,190,194,.22)!important;color:#d8ebed!important}
+.ov .btn.sg.on{background:linear-gradient(180deg,#8af5dc,#2dcbb2)!important;color:#052b2b!important}
+.ov .srow{background:linear-gradient(145deg,rgba(5,22,30,.88),rgba(20,52,62,.92))!important;border-color:rgba(75,215,196,.22)!important}
+.ov .srow input{color:#f1ffff!important}
+.ov .srow input::placeholder{color:#88aeb4!important}
+.ov .seg{background:rgba(3,16,23,.5)!important;border-color:rgba(75,215,196,.18)!important}
+#menu #score{background:rgba(67,214,190,.07)!important;border-color:var(--app-line)!important;color:#a9c8ca!important}
+#tut .tcard{background:linear-gradient(150deg,#1b4855,#0c2834)!important;border-color:rgba(91,237,213,.46)!important}
+#tut .tcard h2{color:#8ff5df!important;text-shadow:none!important}
+#tut .tcard p{color:#c2dadd!important}
+#tdots b.on{background:#55e5cb!important;box-shadow:0 0 10px #55e5cb77!important}
+#winov #wname{color:#8ff5df!important;text-shadow:0 0 18px #37d9bf55!important}
+#winov .wr.first{color:#8ff5df!important}
+#winov .card{border-color:rgba(84,231,208,.42)!important}
+/* Splash */
+#splash{
+ background:radial-gradient(ellipse at 50% 42%,rgba(35,190,171,.23),transparent 48%),linear-gradient(145deg,#06121a,#123440 52%,#06121a)!important;
+}
+#splash::before{background:radial-gradient(circle,rgba(54,224,192,.20),rgba(30,133,137,.06) 48%,transparent 70%)!important}
+#splash::after{color:rgba(181,239,231,.65)!important}
+#splash p{color:#d8fff7!important}
+#splash .ld{border-color:rgba(128,244,224,.4)!important}
+#splash .ld i{background:linear-gradient(90deg,#0c9f91,#9affeb 48%,#20c9b0)!important;box-shadow:0 0 12px rgba(67,232,205,.65)!important}
+/* In-game HUD only; the actual Ludo board and its four player colours stay intact */
+#app{background:radial-gradient(ellipse at 50% 42%,#1a4650 0%,#102b37 48%,#071720 100%)!important}
+#top{background:linear-gradient(180deg,rgba(4,17,23,.92),rgba(4,17,23,.42))!important;border-bottom:1px solid rgba(103,231,212,.15)!important}
+.ib{background-color:rgba(74,208,190,.09)!important;border-color:rgba(103,231,212,.18)!important}
+.chip{border-color:rgba(103,231,212,.20)!important;background:linear-gradient(145deg,rgba(20,57,67,.97),rgba(8,27,36,.96))!important}
+.chip.on{border-color:#67ead1!important;background:linear-gradient(145deg,rgba(28,94,87,.98),rgba(13,48,52,.98))!important;box-shadow:0 0 0 1px #67ead155,0 0 18px #46d9c333,0 7px 18px #0006!important}
+.chip.on .pn{color:#aaffed!important}
+#msg{border-color:rgba(103,231,212,.18)!important;background:rgba(4,19,26,.84)!important;color:#e2f7f5!important}
+
 </style></head><body>
 <div id="app">
 <div id="top"><div class="tlogo"></div><div class="grow"></div><button class="ib" id="snd" aria-label="Sound"></button><button class="ib" id="mus" aria-label="Music"></button><button class="ib" id="mnu" aria-label="Menu"></button></div>
