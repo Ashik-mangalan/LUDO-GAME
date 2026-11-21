@@ -626,7 +626,56 @@ body{background-color:#071d23 !important}
 @media(prefers-reduced-motion:reduce){.ov>.in,.hero .lg,#splash .lg{animation:none !important}}
 </style>
 
-</head><body>
+<style>
+/* Premium teal UI refresh — preserves the original board and game engine */
+:root{
+ --ui-bg:#071f2b; --ui-panel:#0d3442; --ui-panel2:#124555;
+ --ui-line:rgba(95,235,211,.22); --ui-mint:#54f0d0; --ui-mint2:#20cdb8;
+ --ui-text:#eafffb; --ui-muted:#9dcac5;
+}
+html,body{background:#071f2b!important;color:var(--ui-text)}
+body{background-image:radial-gradient(ellipse at 50% 5%,#155064 0%,#0a2c3a 48%,#061923 100%)!important}
+#app{background:transparent}
+#top{background:linear-gradient(180deg,#0b3544f5,#082633f2)!important;border-bottom:1px solid var(--ui-line);box-shadow:0 8px 24px #0003}
+.ib{filter:drop-shadow(0 2px 5px #0008)}
+.ov{background:linear-gradient(155deg,#0b3442 0%,#071f2b 72%,#061923 100%)!important}
+.ov::before{background:radial-gradient(ellipse at 50% 15%,#2bd9c01a,transparent 58%)!important}
+.rays{opacity:.09!important}
+.hd{background:linear-gradient(180deg,#104353,#0a2b38)!important;color:#8ff8e2!important;text-shadow:none!important;border-bottom:1px solid var(--ui-line)}
+.card,.pnl{border:1px solid var(--ui-line)!important;border-radius:18px!important;background:linear-gradient(145deg,#124555ee,#0b2d39f5)!important;box-shadow:0 12px 30px #0003!important;padding:14px!important}
+.lbl{color:#8ff8e2!important;text-shadow:none!important}
+.lbl::before,.lbl::after{background:linear-gradient(90deg,transparent,#54f0d0aa)!important}
+#sub,#score{background:#0b3a47!important;color:#cffff5!important;box-shadow:0 0 0 1px #54f0d055!important}
+.btn{border:1px solid #54f0d055!important;border-radius:13px!important;border-image:none!important;background:linear-gradient(145deg,#176274,#0e4656)!important;color:#eafffb!important;text-shadow:none!important;box-shadow:0 5px 14px #001a2380,inset 0 1px #ffffff18!important;font-weight:700!important}
+.btn.gold,.btn.b0,.btn.b1,.btn.b2,.btn.b3,.btn.b4,.btn.b5,.btn.red{background:linear-gradient(145deg,#20cdb8,#087e82)!important;color:#042a31!important}
+.btn:active{filter:brightness(1.15)!important}
+.srow{border:1px solid var(--ui-line)!important;border-radius:12px!important;background:#082b36!important}
+.srow input{color:#eafffb!important}
+#msg{color:#d8fff8!important;border-image:none!important;border:1px solid var(--ui-line)!important;border-radius:14px!important;background:#0a3442eF!important;padding:10px 16px!important;text-shadow:none!important}
+#profileCorner{position:fixed;z-index:40;left:calc(10px + env(safe-area-inset-left));top:calc(8px + env(safe-area-inset-top));height:44px;min-width:44px;padding:0 12px;border:1px solid #54f0d088;border-radius:15px;background:linear-gradient(145deg,#176274,#0a3542);color:#cffff5;display:flex;align-items:center;gap:7px;font:700 12px Poppins,system-ui;box-shadow:0 5px 18px #00182088}
+#profileCorner .pcav{font-size:20px}
+#top{padding-left:62px!important}
+#featureEntry{width:100%;height:48px;border-radius:14px;border:1px solid #54f0d077;background:linear-gradient(120deg,#155568,#0b3948);color:#cffff5;font:700 13px Poppins,system-ui;letter-spacing:.8px}
+#featureHub{position:fixed;inset:0;z-index:35;overflow-y:auto;padding:calc(66px + env(safe-area-inset-top)) 16px calc(22px + env(safe-area-inset-bottom));background:linear-gradient(155deg,#0b3442 0%,#071f2b 72%,#061923 100%);color:#eafffb}
+#featureHub .fhwrap{width:min(100%,520px);margin:0 auto;display:flex;flex-direction:column;gap:13px}
+#featureHub .fhtop{display:flex;align-items:center;justify-content:space-between;gap:10px}
+#featureHub h2{margin:0;color:#8ff8e2;font:700 22px Poppins,system-ui}
+#featureHub .fhclose,#featureHub .fhbtn{border:1px solid #54f0d066;border-radius:12px;background:linear-gradient(145deg,#155568,#0b3948);color:#eafffb;padding:11px 14px;font:700 13px Poppins,system-ui}
+#featureHub .fhcard{padding:15px;border:1px solid #54f0d044;border-radius:17px;background:linear-gradient(145deg,#124555eF,#0a2c38f5);box-shadow:0 10px 24px #0002}
+#featureHub .fhmuted{color:#9dcac5;font-size:12px}
+#featureHub .fhgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+#featureHub .fhitem{min-height:82px;text-align:left;padding:12px;border:1px solid #54f0d044;border-radius:14px;background:#0b3542;color:#eafffb;display:flex;flex-direction:column;justify-content:center;gap:5px}
+#featureHub .fhitem b{font-size:13px}#featureHub .fhitem span{font-size:11px;color:#9dcac5}
+#featureHub .fhrow{display:flex;align-items:center;gap:10px;justify-content:space-between;padding:9px 0;border-bottom:1px solid #54f0d022}
+#featureHub .fhrow:last-child{border-bottom:0}
+#featureHub input{width:100%;border:1px solid #54f0d055;border-radius:10px;padding:12px;background:#062631;color:#eafffb;font:600 14px Poppins,system-ui}
+#featureHub .fhbar{height:9px;background:#05232d;border-radius:20px;overflow:hidden;margin-top:8px}
+#featureHub .fhbar i{display:block;height:100%;background:linear-gradient(90deg,#20cdb8,#8ff8e2);border-radius:20px}
+#featureHub .fhpill{display:inline-flex;padding:6px 10px;border-radius:20px;background:#155568;color:#bffff3;font-size:11px}
+@media(max-height:700px){#featureHub{padding-top:calc(58px + env(safe-area-inset-top))}#featureHub .fhitem{min-height:70px}}
+body[data-ui-theme=deep]{background-image:radial-gradient(ellipse at 50% 5%,#103d50 0%,#082633 52%,#04151e 100%)!important}
+body[data-ui-theme=mint]{background-image:radial-gradient(ellipse at 50% 5%,#15534e 0%,#0a3438 50%,#061f28 100%)!important}
+</style></head><body>
 <div id="app">
 <div id="top"><div class="tlogo"></div><div class="grow"></div><button class="ib" id="snd" aria-label="Sound"></button><button class="ib" id="mus" aria-label="Music"></button><button class="ib" id="mnu" aria-label="Menu"></button></div>
 <div id="mid">
@@ -658,6 +707,15 @@ body{background-color:#071d23 !important}
 <div class="two"><button class="btn b4" id="tback">Back</button><button class="btn b0" id="tnext">Next</button></div></div></div>
 <div id="winov" class="ov hide"><div class="rays"></div><div class="in"><div class="trophy"></div><h2 id="wname"></h2><div class="card"><div class="lbl">Final ranking</div><div id="wlist" style="display:flex;flex-direction:column;gap:6px"></div></div>
 <button class="btn gold" id="wagain">Play again</button><button class="btn b2 sm" id="wmenu">Menu</button></div></div>
+
+<button id="profileCorner" aria-label="Open player profile"><span class="pcav">🙂</span><span>PROFILE</span></button>
+<section id="featureHub" class="hide" aria-label="Player features">
+ <div class="fhwrap">
+  <div class="fhtop"><div><div class="fhmuted">PLAYER CENTER</div><h2 id="fhTitle">Your profile</h2></div><button class="fhclose" id="fhClose">✕</button></div>
+  <div id="fhContent"></div>
+ </div>
+</section>
+
 <div id="splash"><div class="rays"></div><div class="lg"></div><p>Roll, race and capture!</p><div class="ld"><i></i></div></div>
 <canvas id="fx"></canvas>
 <script>
@@ -941,4 +999,71 @@ function goBack(){
 S=[0,1,2,3].map(()=>[-1,-1,-1,-1]);$('chip0').querySelector('.slot').appendChild(dice);face(1);render();showMenu('Roll, race and capture!');
 setTimeout(()=>{const s=$('splash');s.classList.add('gone');setTimeout(()=>{s.remove();if(!ld('ludo-tut',false))openTut()},520)},1900);
 if('serviceWorker' in navigator&&location.protocol.startsWith('http'))addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+
+// ---- Player profile, progression and everyday game features ----
+(()=>{
+ const $id=id=>document.getElementById(id);
+ const KEY='ludo-player-center-v1';
+ const today=()=>new Date().toISOString().slice(0,10);
+ const fresh=()=>({name:'Player',avatar:'🙂',xp:0,games:0,wins:0,history:[],claimed:'',spin:'',theme:'teal',challengeDay:today(),challenge:{plays:0,wins:0,rolls:0},sound:true,music:true});
+ let data=(()=>{try{return {...fresh(),...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch(e){return fresh()}})();
+ const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(data))}catch(e){};syncCorner()};
+ const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+ const level=()=>Math.floor(data.xp/100)+1;
+ const hub=$id('featureHub'),content=$id('fhContent');
+ let page='home';
+ function syncCorner(){const b=$id('profileCorner');if(b){b.querySelector('.pcav').textContent=data.avatar||'🙂';}}
+ function open(p='home'){page=p;hub.classList.remove('hide');render()}
+ function close(){hub.classList.add('hide')}
+ function go(p){page=p;render()}
+ function card(s){return `<div class="fhcard">${s}</div>`}
+ function btn(t,fn,cls='fhbtn'){return `<button class="${cls}" data-act="${fn}">${t}</button>`}
+ const features=[
+  ['👤','Player Profile','profile'],['🏅','Achievements','achievements'],
+  ['🎁','Daily Rewards','rewards'],['📊','Match Stats','stats'],
+  ['🏆','Leaderboard','leaderboard'],['🎨','Themes','themes'],
+  ['🔊','Sound Controls','sound'],['🎯','Daily Challenges','challenges'],
+  ['🧑‍🎤','Choose Avatar','avatar'],['🎡','Lucky Spin','spin']
+ ];
+ function home(){return card(`<div class="fhmuted">WELCOME BACK</div><h2 style="margin:5px 0 4px">${esc(data.name)} ${data.avatar}</h2><div class="fhmuted">LEVEL ${level()} · ${data.xp} XP</div><div class="fhbar"><i style="width:${data.xp%100}%"></i></div><div class="fhmuted" style="margin-top:6px">${100-data.xp%100} XP to next level</div>`)
+ + `<div class="fhgrid">${features.map(f=>`<button class="fhitem" data-page="${f[2]}"><b>${f[0]} ${f[1]}</b><span>Open ${f[1].toLowerCase()}</span></button>`).join('')}</div>`}
+ function profile(){return card(`<div style="font-size:38px;text-align:center">${data.avatar}</div><label class="fhmuted">PLAYER NAME</label><input id="fhName" maxlength="16" value="${esc(data.name)}"><div class="fhrow"><span>Level</span><b>${level()}</b></div><div class="fhrow"><span>Total XP</span><b>${data.xp}</b></div><div class="fhrow"><span>Games played</span><b>${data.games}</b></div><div class="fhrow"><span>Wins</span><b>${data.wins}</b></div>${btn('Save profile','saveprofile')}${btn('Choose avatar','avatar')}`)
+ }
+ const badges=[['First Game',data.games>=1,'Play your first match'],['First Win',data.wins>=1,'Win a match'],['Rising Star',data.xp>=100,'Earn 100 XP'],['Veteran',data.games>=10,'Play 10 matches'],['Champion',data.wins>=5,'Win 5 matches']];
+ function achievements(){return card(`<div class="fhmuted">COLLECT BADGES BY PLAYING</div>${badges.map(b=>`<div class="fhrow"><span>${b[1]?'🏅':'🔒'} ${b[0]}<div class="fhmuted">${b[2]}</div></span><b>${b[1]?'UNLOCKED':'LOCKED'}</b></div>`).join('')}`)}
+ function rewards(){let claimed=data.claimed===today();return card(`<div style="font-size:40px;text-align:center">🎁</div><h2 style="text-align:center">Daily Reward</h2><p class="fhmuted" style="text-align:center">Come back every day for a bonus.</p><div class="fhrow"><span>Today's reward</span><b>+25 XP</b></div>${btn(claimed?'Already claimed today':'Claim daily reward','claim')}`)}
+ function stats(){let rate=data.games?Math.round(data.wins/data.games*100):0;return card(`<div class="fhrow"><span>Games played</span><b>${data.games}</b></div><div class="fhrow"><span>Matches won</span><b>${data.wins}</b></div><div class="fhrow"><span>Win rate</span><b>${rate}%</b></div><div class="fhrow"><span>Total XP</span><b>${data.xp}</b></div><h3>Recent matches</h3>${data.history.length?data.history.slice(0,8).map(h=>`<div class="fhrow"><span>${esc(h.game)} · ${esc(h.result)}</span><span class="fhmuted">${esc(h.date)}</span></div>`).join(''):'<p class="fhmuted">Your match history will appear here after your next game.</p>'}`)}
+ function leaderboard(){let rows=[{name:data.name,wins:data.wins},...Object.entries(wins||{}).filter(([n])=>n!==data.name).map(([name,w])=>({name,wins:w}))].sort((a,b)=>b.wins-a.wins);return card(`<div class="fhmuted">LOCAL LEADERBOARD · THIS DEVICE</div>${rows.map((r,i)=>`<div class="fhrow"><span>${['🥇','🥈','🥉'][i]||'🎮'} ${esc(r.name)}</span><b>${r.wins} wins</b></div>`).join('')||'<p class="fhmuted">Play matches to appear here.</p>'}`)}
+ function themes(){return card(`<p class="fhmuted">Choose a look. Your signature teal and mint palette stays the default.</p>${[['teal','🌊 Ocean Teal'],['deep','🌌 Deep Teal'],['mint','🍃 Mint Glow']].map(([v,n])=>`<div class="fhrow"><span>${n}</span>${btn(data.theme===v?'Selected':'Apply',`theme:${v}`)}</div>`).join('')}`)}
+ function sound(){return card(`<div class="fhrow"><span>Sound effects</span>${btn(data.sound?'ON':'OFF','soundfx')}</div><div class="fhrow"><span>Background music</span>${btn(data.music?'ON':'OFF','music')}</div><p class="fhmuted">These controls are linked to the game's existing sound and music settings.</p>`)}
+ function challenges(){if(data.challengeDay!==today()){data.challengeDay=today();data.challenge={plays:0,wins:0,rolls:0};save()}let tasks=[['Play 1 match',data.challenge.plays,1],['Win 1 match',data.challenge.wins,1],['Play 3 matches',data.challenge.plays,3]];return card(`<div class="fhmuted">DAILY CHALLENGES · ${today()}</div>${tasks.map(t=>`<div class="fhrow"><span>${t[0]}</span><b>${Math.min(t[1],t[2])}/${t[2]} ${t[1]>=t[2]?'✓':''}</b></div>`).join('')}<p class="fhmuted">Challenges update as you finish matches.</p>`)}
+ function avatar(){let av=['🙂','😎','🤩','😈','🐼','🦊','🐯','🐸','🐲','👑','🚀','⚡'];return card(`<div class="fhgrid">${av.map(a=>`<button class="fhitem" data-avatar="${a}" style="font-size:27px;text-align:center">${a}<span>${a===data.avatar?'Selected':'Choose'}</span></button>`).join('')}</div>`)}
+ function spin(){let used=data.spin===today();return card(`<div style="font-size:48px;text-align:center">🎡</div><h2 style="text-align:center">Lucky Spin</h2><p class="fhmuted" style="text-align:center">One free spin every day. Win XP for your profile.</p>${btn(used?'Come back tomorrow':'SPIN NOW','spin:'+(!used))}`)}
+ const pages={home,profile,achievements,rewards,stats,leaderboard,themes,sound,challenges,avatar,spin};
+ function render(){ $id('fhTitle').textContent=page==='home'?'Player Center':features.find(f=>f[2]===page)?.[1]||'Player Center';content.innerHTML=page==='home'?home():((pages[page]||home)()); if(page!=='home')content.insertAdjacentHTML('beforeend',`<div style="display:flex;gap:8px;margin-top:10px">${btn('← Back','back')}</div>`); }
+ function action(a){
+  if(a==='back'){go('home');return}
+  if(a==='saveprofile'){let v=$id('fhName')?.value.trim();if(v)data.name=v.slice(0,16);save();render();return}
+  if(a==='claim'){if(data.claimed!==today()){data.claimed=today();data.xp+=25;save();render()}return}
+  if(a==='soundfx'){$id('snd').click();data.sound=!document.getElementById('snd').classList.contains('off');save();render();return}
+  if(a==='music'){$id('mus').click();data.music=!!mOn;save();render();return}
+  if(a.startsWith('theme:')){data.theme=a.split(':')[1];document.body.dataset.uiTheme=data.theme;save();render();return}
+  if(a==='spin:true'){if(data.spin!==today()){data.spin=today();let reward=[10,15,20,25,30,50][Math.floor(Math.random()*6)];data.xp+=reward;save();render();alert(`You won ${reward} XP!`)}return}
+  if(a==='spin:false'){return}
+ }
+ content.addEventListener('click',e=>{let p=e.target.closest('[data-page]');if(p){go(p.dataset.page);return}let av=e.target.closest('[data-avatar]');if(av){data.avatar=av.dataset.avatar;save();render();return}let a=e.target.closest('[data-act]');if(a)action(a.dataset.act)});
+ $id('fhClose').onclick=close;
+ $id('profileCorner').onclick=()=>open('profile');
+ const entry=document.createElement('button');entry.id='featureEntry';entry.textContent='✨ PLAYER CENTER  ·  10 FEATURES';entry.onclick=()=>open('home');
+ const menuIn=document.querySelector('#menu .in');if(menuIn&&!$id('featureEntry')){const foot=document.querySelector('#menu .foot');menuIn.insertBefore(entry,foot)}
+ // Hook into existing game lifecycle without replacing game logic.
+ const oldWin=window.win;
+ if(typeof oldWin==='function'&&!oldWin.__tracked){window.win=function(p){let before=rank.length;oldWin(p);if(!over||p===undefined)return;data.games++;if(data.challengeDay!==today()){data.challengeDay=today();data.challenge={plays:0,wins:0,rolls:0}}if(!bots[p]){data.wins++;data.challenge.wins++;data.xp+=50;data.history.unshift({game:game==='sl'?'Snakes & Ladders':'Ludo',result:'Win',date:today()})}else{data.xp+=15;data.history.unshift({game:game==='sl'?'Snakes & Ladders':'Ludo',result:'Played',date:today()})}data.history=data.history.slice(0,20);save()};window.win.__tracked=true}
+ // Daily challenge play count when a new match begins.
+ const oldStart=window.start;
+ if(typeof oldStart==='function'&&!oldStart.__tracked){window.start=function(...args){if(data.challengeDay!==today()){data.challengeDay=today();data.challenge={plays:0,wins:0,rolls:0}}data.challenge.plays++;save();return oldStart.apply(this,args)};window.start.__tracked=true}
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!hub.classList.contains('hide'))close()});
+ syncCorner();
+})();
+
 </script></body></html>
