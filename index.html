@@ -222,6 +222,15 @@ body[data-frame=rose] #bwrap{filter:drop-shadow(0 0 14px #ff5fa8) drop-shadow(0 
 body[data-frame=sky] #bwrap{filter:drop-shadow(0 0 14px #4db8ff) drop-shadow(0 0 4px #4db8ff)}
 #shareImg{position:fixed;inset:0;z-index:60;background:#000d;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:16px;color:#fff;font:600 13px Poppins;text-align:center}
 #shareImg img{max-height:70vh;max-width:90vw;border-radius:14px}#shareImg .fhbtn{width:160px}
+</style><style>
+#onBody{display:flex;flex-direction:column;gap:12px}
+#onBody input{width:100%;height:56px;border:2px solid #3de8c8aa;border-radius:16px;background:#04202b;color:#fff;text-align:center;font:400 28px Archivo,sans-serif;letter-spacing:8px;outline:none;-webkit-user-select:text;user-select:text}
+.oncode{text-align:center;font:400 46px Archivo,sans-serif;letter-spacing:10px;color:#ffd75a;text-shadow:0 0 16px #ffd75a66}
+.onp{display:flex;align-items:center;gap:10px;padding:8px 12px;border:1.5px solid #3de8c844;border-radius:14px;background:#04202b;font:700 15px Poppins;color:#fff}
+.onp i{width:14px;height:14px;border-radius:50%;flex:none}
+.onp.wait{opacity:.45;font-weight:600}
+.onmsg{text-align:center;font:600 13px Poppins;color:#ffd75a;min-height:18px}
+.onhint{text-align:center;font:500 12px Poppins;color:#9fd8d0}
 </style></head><body>
 <div id="app">
 <div id="top"><div class="tlogo"></div><div class="grow"></div><button class="ib" id="snd" aria-label="Sound"></button><button class="ib" id="mus" aria-label="Music"></button><button class="ib" id="mnu" aria-label="Menu"></button></div>
@@ -236,7 +245,7 @@ body[data-frame=sky] #bwrap{filter:drop-shadow(0 0 14px #4db8ff) drop-shadow(0 0
 <div id="menu" class="ov"><div class="rays"></div><div class="in"><button id="profileCorner" aria-label="Open player profile"><span class="pcav">🙂</span><span class="pnm">PROFILE</span></button><div class="hero"><div class="lg"></div><p id="sub">Roll, race and capture!</p></div>
 <button class="btn b1" id="cont" style="display:none">Resume game</button>
 <button class="btn gold big" id="quick">Quick play</button>
-<div class="card"><div class="lbl">Ludo</div><div class="tiles"><button class="btn b0" id="tCpu">vs Computer</button><button class="btn b1" id="tPass">Pass N Play</button></div></div>
+<div class="card"><div class="lbl">Ludo</div><div class="tiles"><button class="btn b0" id="tCpu">vs Computer</button><button class="btn b1" id="tPass">Pass N Play</button></div><button class="btn b3" id="tOnline" style="margin-top:8px;width:100%">🌐 Play online</button></div>
 <div class="card"><div class="lbl">Snakes &amp; Ladders</div><div class="tiles"><button class="btn b5" id="tSlCpu">vs Computer</button><button class="btn b3" id="tSlPass">Pass N Play</button></div></div>
 <div class="foot"><button class="btn b4 sm" id="howto">How to play</button><button class="btn b4 sm" id="gset">Settings</button></div>
 <p id="score"></p></div></div>
@@ -254,6 +263,8 @@ body[data-frame=sky] #bwrap{filter:drop-shadow(0 0 14px #4db8ff) drop-shadow(0 0
 <div class="three"><button class="btn ic" id="tback">Back</button><button class="btn" id="tskip">Skip</button><button class="btn b0 ic nx" id="tnext">Next</button></div></div></div>
 <div id="winov" class="ov hide"><div class="rays"></div><div class="in"><div class="trophy"></div><h2 id="wname"></h2><div class="card"><div class="lbl">Final ranking</div><div id="wlist" style="display:flex;flex-direction:column;gap:6px"></div></div>
 <button class="btn gold" id="wagain">Play again</button><button class="btn b2 sm" id="wshare">📤 Share result</button><button class="btn b2 sm" id="wmenu">Menu</button></div></div>
+<div id="online" class="ov hide"><div class="rays"></div><div class="hd">Play online</div><div class="in">
+<div id="onBody"></div><button class="btn b2 sm" id="onBack">Back</button></div></div>
 <div id="splash"><div class="rays"></div><div class="lg"></div><p>Roll, race and capture!</p><div class="ld"><i></i></div></div>
 <section id="featureHub" class="hide" aria-label="Player Center"><div class="fhwrap"><div class="fhtop"><h2 id="fhTitle">Player Center</h2><button class="fhclose" id="fhClose" aria-label="Close">✕</button></div><div id="fhContent"></div></div></section>
 <canvas id="fx"></canvas>
@@ -296,8 +307,9 @@ function fxLoop(){fx.clearRect(0,0,fxc.width,fxc.height);
  fx.globalAlpha=1;P=P.filter(p=>p.l>0&&p.y<fxc.height+30);if(P.length)requestAnimationFrame(fxLoop);else{fxOn=false;fx.clearRect(0,0,fxc.width,fxc.height)}}
 // ---- pawns ----
 const el=[];
-for(let p=0;p<4;p++){el[p]=[];for(let i=0;i<4;i++){const e=document.createElement('div');e.className='pc';e.innerHTML='<div class="pw w'+p+'"></div>';e.onclick=()=>{if(p==turn&&rolled&&!busy&&isH(p)&&legal(p,dd).includes(i))move(i)};pcs.appendChild(e);el[p][i]=e}}
+for(let p=0;p<4;p++){el[p]=[];for(let i=0;i<4;i++){const e=document.createElement('div');e.className='pc';e.innerHTML='<div class="pw w'+p+'"></div>';e.onclick=()=>{if(p==turn&&rolled&&!busy&&isH(p)&&legal(p,dd).includes(i)){if(ON)evSend({t:'move',i});move(i)}};pcs.appendChild(e);el[p][i]=e}}
 for(let p=0;p<4;p++){const c=$('chip'+p);c.className='chip'+(p==1||p==2?' r':'');c.style.backgroundImage='var(--chip'+p+')';c.innerHTML='<span class="av" style="background-image:var(--badge'+p+')"></span><span class="tx"><b class="pn"></b><small class="nm"></small></span><span class="slot"></span>'}
+let ON=false,mySeat=0,forced=0,needChoice=false,_so=false;
 let tries=0,S,turn=0,dd=1,rolled=false,busy=false,over=true,seats=[0,1,2,3],cpu=true;
 let rank=[],lvl=ld('ludo-lvl',1),custom=ld('ludo-names',null),wins=ld('ludo-wins',{});
 if(!Array.isArray(custom)||custom.length!=4)custom=['','','',''];if(![0,1,2].includes(lvl))lvl=1;if(typeof wins!='object'||Array.isArray(wins))wins={};
@@ -306,8 +318,8 @@ let bots=[false,true,true,true];
 const BOTN=['Rohan','Aarav','Zara','Kabir'];
 const dnf=(p,st,b)=>b[p]?BOTN[p]:(st.filter(q=>!b[q]).length==1?'You':NAMES[p]);
 const pname=p=>custom[p]||dnf(p,seats,bots);
-const isYou=p=>!bots[p]&&dnf(p,seats,bots)=='You';
-const isH=p=>seats.includes(p)&&!bots[p];
+const isYou=p=>ON?p===mySeat:!bots[p]&&dnf(p,seats,bots)=='You';
+const isH=p=>seats.includes(p)&&!bots[p]&&(!ON||p===mySeat);
 function cellOf(p,r,i){
  if(r<0)return rot(YARD[i],p);
  if(r<=50)return PATH[(p*13+r)%52];
@@ -334,8 +346,9 @@ function render(){
 }
 const msg=t=>$('msg').textContent=t;
 const seatsFor=n=>n==2?[0,2]:n==3?[0,1,2]:[0,1,2,3];
-const OVS=['menu','setup','sets','tut','winov'];
+const OVS=['menu','setup','sets','tut','winov','online'];
 function start(g,n,b){
+ if(!_so&&ON&&typeof leaveOnline=='function')leaveOnline();_so=false;needChoice=false;
  setGame(g||'ludo');POS=[0,0,0,0];
  seats=seatsFor(n);bots=b.slice();cpu=seats.some(q=>bots[q]);
  S=[0,1,2,3].map(()=>[-1,-1,-1,-1]);turn=0;rolled=false;busy=false;over=false;
@@ -347,17 +360,18 @@ function next(){
  render();clearRings();if(over)return;$('chip'+turn).querySelector('.slot').appendChild(dice);
  dice.disabled=!isH(turn);dice.classList.toggle('my',isH(turn));
  if(isH(turn))msg(isYou(turn)?'Your turn! Tap the dice':pname(turn)+', tap the dice');
+ else if(ON){msg(pname(turn)+' is playing…')}
  else{msg(pname(turn)+' is thinking…');setTimeout(roll,900)}
 }
 function ring(p,i){const r=S[p][i],c=cellOf(p,r<0?0:r+dd,i),e=document.createElement('div');e.className='ring';e.style.left=(c[0]+.5)*100/15+'%';e.style.top=(c[1]+.5)*100/15+'%';pcs.appendChild(e)}
 function clearRings(){document.querySelectorAll('#pcs .ring').forEach(e=>e.remove())}
 function legal(p,d){return [0,1,2,3].filter(i=>{const r=S[p][i];return r<0?d==6:r<56&&r+d<=56})}
 async function roll(){
- if(rolled||busy||over)return;busy=true;dice.disabled=true;dice.classList.remove('my');
+ if(rolled||busy||over)return;const fv=forced;forced=0;busy=true;dice.disabled=true;dice.classList.remove('my');
  if(!dv||dv.parentNode!==dice)buildDice();
  dice.classList.add('roll');
  for(let n=0;n<12;n++){face(1+Math.random()*6|0,true);tone(280+n*30,.05,'square',.05);await sleep(50)}
- dd=1+Math.random()*6|0;dice.classList.remove('roll');face(dd);tone(dd==6?880:500,.15,'triangle',.15);buzz(dd==6?70:30);
+ dd=fv||(1+Math.random()*6|0);if(ON&&!fv)evSend({t:'roll',v:dd});dice.classList.remove('roll');face(dd);tone(dd==6?880:500,.15,'triangle',.15);buzz(dd==6?70:30);
  if(dd==6){const r=dice.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2,'#ffd21a',20)}
  await sleep(250);
  rolled=true;busy=false;afterRoll();
@@ -366,7 +380,7 @@ function afterRoll(){
  if(game=='sl')return slAfter();
  const mv=legal(turn,dd);
  if(!mv.length){if(S[turn].every(r=>r<0)&&++tries<3){msg(pname(turn)+' rolled '+dd+'. Try again ('+tries+'/3)');setTimeout(()=>pass(true),1000);return}msg(pname(turn)+' rolled '+dd+'. No moves');setTimeout(()=>pass(false),1000);return}
- if(!isH(turn)){setTimeout(()=>move(ai(mv)),700);return}
+ if(!isH(turn)){if(ON){if(mv.length==1||mv.every(i=>S[turn][i]<0))setTimeout(()=>move(mv[0]),400);else needChoice=true;return}setTimeout(()=>move(ai(mv)),700);return}
  if(mv.length==1||mv.every(i=>S[turn][i]<0)){setTimeout(()=>move(mv[0]),400);return}
  msg('Tap a bouncing pawn');mv.forEach(i=>{el[turn][i].classList.add('can');ring(turn,i)});
 }
@@ -392,7 +406,7 @@ function ai(mv){
  return best;
 }
 async function move(i){
- const p=turn,r=S[p][i];busy=true;rolled=false;tries=0;
+ const p=turn,r=S[p][i];busy=true;rolled=false;tries=0;needChoice=false;
  el[p].forEach(e=>e.classList.remove('can'));clearRings();
  el[p][i].dataset.up=1;el[p][i].style.zIndex=300;
  if(r<0){S[p][i]=0;render();tone(660,.12,'triangle')}
@@ -443,11 +457,11 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',
 function cellXY(c){const r=$(game=='sl'?'sl':'board').getBoundingClientRect();return[r.left+(c[0]+.5)/15*r.width,r.top+(c[1]+.5)/15*r.height]}
 function puff(c,color){const[x,y]=cellXY(c);burst(x,y,color)}
 dice.onclick=()=>{if(isH(turn)&&!over)roll()};
-const save=()=>{if(game!='ludo')return;try{localStorage.setItem('ludo',JSON.stringify({S,turn,seats,cpu,bots,rank}))}catch(e){}};const saved=()=>{try{return JSON.parse(localStorage.getItem('ludo'))}catch(e){return null}};
+const save=()=>{if(game!='ludo'||ON)return;try{localStorage.setItem('ludo',JSON.stringify({S,turn,seats,cpu,bots,rank}))}catch(e){}};const saved=()=>{try{return JSON.parse(localStorage.getItem('ludo'))}catch(e){return null}};
 function showMenu(t){$('sub').textContent=t;$('score').textContent=scoreText();$('cont').style.display=(saved()||(started&&!over))?'':'none';OVS.forEach(id=>$(id).classList.add('hide'));$('menu').classList.remove('hide')}
 $('mnu').onclick=()=>showMenu('Roll, race and capture!');
 $('wmenu').onclick=()=>showMenu('Roll, race and capture!');
-$('wagain').onclick=()=>start(game,seats.length,bots);
+$('wagain').onclick=()=>{if(ON){leaveOnline();showMenu('Roll, race and capture!');return}start(game,seats.length,bots)};
 // ---- Snakes & Ladders (board art is a picture; this only places the pawns) ----
 const LAD={4:14,9:31,20:38,28:84,40:59,51:67,63:81,71:91},SNK={17:7,54:34,62:19,64:60,87:24,93:73,95:75,99:78},MAP={...LAD,...SNK},OFF=[[-.2,-.12],[.2,-.12],[-.2,.18],[.2,.18]];
 let game='ludo',POS=[0,0,0,0];
@@ -729,7 +743,7 @@ if('serviceWorker' in navigator&&location.protocol.startsWith('http'))addEventLi
  }
  // Hook into existing game lifecycle without replacing game logic.
  const oldWin=window.win;
- if(typeof oldWin==='function'&&!oldWin.__tracked){window.win=function(p){let before=rank.length;oldWin(p);if(!over||p===undefined)return;data.games++;if(data.challengeDay!==today()){data.challengeDay=today();data.challenge={plays:0,wins:0,rolls:0}}if(!bots[p]){data.wins++;data.challenge.wins++;data.xp+=50;data.lastEarn=[20,30,50][lvl]||30;data.coins+=data.lastEarn;data.history.unshift({game:game==='sl'?'Snakes & Ladders':'Ludo',result:'Win',date:today()})}else{data.xp+=15;data.lastEarn=10;data.coins+=10;data.history.unshift({game:game==='sl'?'Snakes & Ladders':'Ludo',result:'Played',date:today()})}data.history=data.history.slice(0,20);save()};window.win.__tracked=true}
+ if(typeof oldWin==='function'&&!oldWin.__tracked){window.win=function(p){let before=rank.length;oldWin(p);if(!over||p===undefined)return;data.games++;if(data.challengeDay!==today()){data.challengeDay=today();data.challenge={plays:0,wins:0,rolls:0}}if((typeof ON!=='undefined'&&ON)?p===mySeat:!bots[p]){data.wins++;data.challenge.wins++;data.xp+=50;data.lastEarn=[20,30,50][lvl]||30;data.coins+=data.lastEarn;data.history.unshift({game:game==='sl'?'Snakes & Ladders':'Ludo',result:'Win',date:today()})}else{data.xp+=15;data.lastEarn=10;data.coins+=10;data.history.unshift({game:game==='sl'?'Snakes & Ladders':'Ludo',result:'Played',date:today()})}data.history=data.history.slice(0,20);save()};window.win.__tracked=true}
  // Daily challenge play count when a new match begins.
  const oldStart=window.start;
  if(typeof oldStart==='function'&&!oldStart.__tracked){window.start=function(...args){if(data.challengeDay!==today()){data.challengeDay=today();data.challenge={plays:0,wins:0,rolls:0}}data.challenge.plays++;save();return oldStart.apply(this,args)};window.start.__tracked=true}
@@ -743,4 +757,113 @@ if('serviceWorker' in navigator&&location.protocol.startsWith('http'))addEventLi
 
 
 
+</script>
+<script>
+// ---- Online play (Firebase Realtime Database over REST + live stream) ----
+(()=>{
+const FB=window.__FB||'https://ludo-online-6de47-default-rtdb.asia-southeast1.firebasedatabase.app';
+const $o=id=>document.getElementById(id);
+let room='',tree={},es=null,poll=null,pumpT=null,myKey='',host=false,begun=false,seen=new Set(),evq=[],view='home',want=2,working=false,note='',namesBackup=null;
+const withTimeout=(p,ms=12000)=>{let t;return Promise.race([p,new Promise((_,r)=>{t=setTimeout(()=>r(new Error('timeout')),ms)})]).finally(()=>clearTimeout(t))};
+const api=(path,method='GET',body)=>withTimeout(fetch(FB+'/rooms/'+path+'.json',{method,body:body===undefined?undefined:JSON.stringify(body)}).then(r=>{if(!r.ok)throw new Error('http '+r.status);return r.json()}));
+const myName=()=>{try{const d=JSON.parse(localStorage.getItem('ludo-player-center-v1'));if(d&&d.name&&d.name!=='Player')return String(d.name).slice(0,12)}catch(e){}return 'Player'+(10+(Math.random()*90|0))};
+const plist=()=>Object.entries(tree.players||{}).sort((a,b)=>a[0]<b[0]?-1:1).map(([k,v])=>({k,name:(v&&v.name)||'Player'}));
+const errMsg=e=>{const m=String(e&&e.message||e);return m==='nf'?'Room not found. Check the code.':m==='started'?'That game has already started.':m==='full'?'That room is full.':m==='busy'?'Could not make a room. Try again.':'No internet connection. Please try again.'};
+// ---- screens ----
+function draw(){
+ const b=$o('onBody');if(!b)return;
+ if(view==='home'){
+  b.innerHTML='<div class="card"><div class="lbl">Create a room</div><div class="seg" id="onN">'+[2,3,4].map(n=>'<button class="btn sg '+(want===n?'on':'')+'" data-n="'+n+'">'+n+' players</button>').join('')+'</div><button class="btn b0" id="onCreate">Create room</button></div><div class="card"><div class="lbl">Join a friend</div><input id="onCode" inputmode="numeric" maxlength="4" placeholder="----"><button class="btn b5" id="onJoin">Join room</button></div><div class="onmsg">'+note+'</div><div class="onhint">Needs internet · Ludo only · every player uses their own phone</div>';
+  b.querySelectorAll('#onN button').forEach(x=>x.onclick=()=>{want=+x.dataset.n;draw()});
+  $o('onCreate').onclick=create;$o('onJoin').onclick=join;
+ }else{
+  const pl=plist(),n=(tree.meta&&tree.meta.n)||want,ss=seatsFor(n);
+  let rows='';for(let i=0;i<n;i++){const p=pl[i];rows+='<div class="onp '+(p?'':'wait')+'"><i style="background:'+col(ss[i])+'"></i>'+(p?esc(p.name)+(i===0?' · host':'')+(p.k===myKey?' (you)':''):'Waiting for player…')+'</div>'}
+  const ready=pl.length>=n;
+  b.innerHTML='<div class="card"><div class="lbl">Room code</div><div class="oncode">'+room+'</div><div class="onhint">Tell your friends this code</div>'+rows+'</div>'+(host?'<button class="btn gold" id="onStart" '+(ready?'':'disabled style="opacity:.45"')+'>'+(ready?'Start game':'Waiting for players ('+pl.length+'/'+n+')')+'</button>':'<div class="onmsg">Waiting for the host to start…</div>')+'<div class="onmsg">'+note+'</div>';
+  if(host)$o('onStart').onclick=startGame;
+ }
+}
+// ---- room actions ----
+async function create(){
+ if(working)return;if(begun)leaveOnline();working=true;note='Creating room…';draw();
+ try{let code=null;for(let i=0;i<6&&!code;i++){const c=String(1000+(Math.random()*9000|0));const m=await api(c+'/meta');if(!m||Date.now()-(m.created||0)>6*36e5)code=c}
+  if(!code)throw new Error('busy');
+  await api(code,'DELETE');await api(code+'/meta','PUT',{n:want,created:Date.now(),started:false});
+  room=code;host=true;const r=await api(room+'/players','POST',{name:myName(),t:Date.now()});myKey=r.name;
+  openStream();view='lobby';note='';
+ }catch(e){note=errMsg(e);room=''}
+ working=false;draw();
+}
+async function join(){
+ if(working)return;if(begun)leaveOnline();
+ const code=($o('onCode').value||'').trim();if(!/^\d{4}$/.test(code)){note='Enter the 4-digit code';draw();return}
+ working=true;note='Joining…';draw();
+ try{const m=await api(code+'/meta');if(!m)throw new Error('nf');if(m.started)throw new Error('started');
+  const ps=await api(code+'/players');if(ps&&Object.keys(ps).length>=m.n)throw new Error('full');
+  room=code;host=false;const r=await api(room+'/players','POST',{name:myName(),t:Date.now()});myKey=r.name;
+  const ps2=await api(room+'/players');if(Object.keys(ps2||{}).sort().indexOf(myKey)>=m.n){await api(room+'/players/'+myKey,'DELETE');room='';myKey='';throw new Error('full')}
+  openStream();view='lobby';note='';
+ }catch(e){note=errMsg(e);if(!myKey)room=''}
+ working=false;draw();
+}
+async function startGame(){
+ if(working)return;working=true;note='Starting…';draw();
+ try{await api(room+'/meta','PATCH',{started:true});note=''}catch(e){note=errMsg(e)}
+ working=false;if(!begun)draw();
+}
+// ---- live data ----
+function openStream(){
+ closeStream();tree={};begun=false;seen=new Set();evq=[];let fails=0;
+ const startPoll=()=>{if(poll)return;const go=async()=>{try{const d=await api(room);tree=d||{};onTree()}catch(e){}};go();poll=setInterval(go,1300)};
+ if(typeof EventSource==='undefined')startPoll();
+ else{
+  es=new EventSource(FB+'/rooms/'+room+'.json');
+  const h=e=>{try{const m=JSON.parse(e.data);applyEv(m.path,m.data,e.type==='patch')}catch(_){}};
+  es.addEventListener('put',h);es.addEventListener('patch',h);
+  es.onopen=()=>{fails=0};
+  es.onerror=()=>{if(++fails>=3){try{es.close()}catch(_){}es=null;startPoll()}};
+ }
+ pumpT=setInterval(pump,80);
+}
+function closeStream(){if(es){try{es.close()}catch(_){}es=null}if(poll){clearInterval(poll);poll=null}if(pumpT){clearInterval(pumpT);pumpT=null}}
+function applyEv(path,data,merge){
+ const parts=String(path||'/').split('/').filter(Boolean);
+ if(!parts.length){if(merge&&data){for(const k in data){if(data[k]===null)delete tree[k];else tree[k]=data[k]}}else tree=data||{}}
+ else{let o=tree;for(let i=0;i<parts.length-1;i++){if(typeof o[parts[i]]!=='object'||o[parts[i]]===null)o[parts[i]]={};o=o[parts[i]]}
+  const k=parts[parts.length-1];
+  if(merge&&data&&typeof data==='object'){if(typeof o[k]!=='object'||!o[k])o[k]={};for(const kk in data){if(data[kk]===null)delete o[k][kk];else o[k][kk]=data[kk]}}
+  else if(data===null)delete o[k];else o[k]=data}
+ onTree();
+}
+function onTree(){
+ const meta=tree.meta||null;
+ if(meta&&meta.started&&!begun){const pl=plist(),idx=pl.findIndex(p=>p.k===myKey);if(idx>=0&&idx<meta.n)beginGame(meta.n,pl,idx);return}
+ if(begun){for(const k of Object.keys(tree.ev||{}).sort()){if(seen.has(k))continue;seen.add(k);const e=tree.ev[k];if(e&&e.s!==mySeat)evq.push(e)}}
+ else if(view==='lobby')draw();
+}
+function beginGame(n,pl,idx){
+ begun=true;const ss=seatsFor(n);mySeat=ss[idx];namesBackup=custom.slice();
+ for(let i=0;i<4;i++)custom[i]='';ss.forEach((s,i)=>{custom[s]=pl[i].name});
+ ON=true;_so=true;evq=[];cpu=false;
+ start('ludo',n,[false,false,false,false]);
+}
+// remote moves are replayed through the normal game code, so every phone sees the same game
+function pump(){
+ if(!ON||!evq.length||!started)return;const e=evq[0];
+ if(e.t==='roll'){if(turn===e.s&&!busy&&!rolled&&!over){evq.shift();forced=+e.v||1;roll()}}
+ else if(e.t==='move'){if(turn===e.s&&rolled&&!busy&&needChoice&&legal(turn,dd).includes(e.i)){evq.shift();needChoice=false;move(e.i)}}
+ else evq.shift();
+}
+window.evSend=function(e){e.s=mySeat;let n=0;const go=()=>api(room+'/ev','POST',e).catch(()=>{if(++n<5)setTimeout(go,700*n)});go()};
+window.leaveOnline=function(){
+ closeStream();
+ if(!begun&&room){if(host)api(room,'DELETE').catch(()=>{});else if(myKey)api(room+'/players/'+myKey,'DELETE').catch(()=>{})}
+ if(namesBackup){for(let i=0;i<4;i++)custom[i]=namesBackup[i];namesBackup=null}
+ ON=false;begun=false;room='';myKey='';host=false;evq=[];seen=new Set();tree={};view='home';note='';
+};
+// ---- buttons ----
+$o('tOnline').onclick=()=>{if(begun)view='home';else view=room?'lobby':'home';$o('menu').classList.add('hide');$o('online').classList.remove('hide');draw()};
+$o('onBack').onclick=()=>{if(room&&!begun)leaveOnline();$o('online').classList.add('hide');$o('menu').classList.remove('hide')};
+})();
 </script></body></html>
