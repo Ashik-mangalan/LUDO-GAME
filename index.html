@@ -124,7 +124,7 @@ body[data-ui-theme=mint]{--bg1:#126b48;--bg2:#05241a;--ac:#b9ffd6;--ac2:#27c97c;
 .ov .btn.ic.nx::before{display:none}
 .ov .btn.ic.nx::after{content:'';width:9px;height:9px;border:solid currentColor;border-width:3px 3px 0 0;transform:rotate(45deg);margin-left:2px;margin-right:3px}
 #profileCorner{align-self:flex-start;display:flex;align-items:center;gap:8px;height:40px;padding:0 14px 0 8px;border:1.5px solid #3de8c8aa;border-radius:20px;background:linear-gradient(180deg,#14596d,#08303f);color:#cffff5;font:700 11px Poppins,sans-serif;letter-spacing:.8px;box-shadow:0 3px 0 #031820;cursor:pointer}
-#profileCorner .pcav{font-size:20px;line-height:1}
+#profileCorner .pcav{font-size:20px;line-height:1;display:inline-flex;align-items:center;justify-content:center}#profileCorner .pcav img{width:26px;height:26px;object-fit:cover;object-position:top center;border-radius:50%;border:1px solid #b4fff1}
 #profileCorner .pnm{max-width:46vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px}
 #featureEntry{height:46px;border:2px solid #3de8c8aa;border-radius:16px;background:linear-gradient(180deg,#14596d,#08303f);color:#e8fffa;box-shadow:0 4px 0 #031820,0 0 14px #19e6c622,inset 0 1px 0 #ffffff33;font:400 12px Archivo,sans-serif;letter-spacing:1.2px;cursor:pointer}
 #featureEntry:active{transform:translateY(3px)}
@@ -150,6 +150,30 @@ body[data-ui-theme=mint]{--bg1:#126b48;--bg2:#05241a;--ac:#b9ffd6;--ac2:#27c97c;
 #featureHub .fhbar{height:10px;background:#04202b;border-radius:20px;overflow:hidden;margin-top:8px;border:1px solid #3de8c833}
 #featureHub .fhbar i{display:block;height:100%;background:linear-gradient(90deg,#19cdb4,#b4fff1);border-radius:20px}
 #featureHub .fhwin{text-align:center;font:400 18px Archivo;color:var(--ac)}
+/* Anime character avatar library */
+#featureHub .anime-search{width:100%;margin:10px 0;border:1.5px solid #3de8c866;border-radius:14px;padding:12px 14px;background:#04202b;color:#eafffb;font:600 14px Poppins}
+#featureHub .anime-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+#featureHub .anime-cat{min-height:76px;text-align:left;padding:12px;border:1.5px solid #3de8c866;border-radius:15px;background:linear-gradient(165deg,#105366,#07293a);color:#eafffb;display:flex;flex-direction:column;justify-content:center;gap:5px;font:700 12px Poppins;box-shadow:0 3px 0 #031820}
+#featureHub .anime-cat small{color:#9fd8d0;font:500 10px Poppins}
+#featureHub .anime-cast{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+#featureHub .anime-person{min-width:0;padding:7px 6px 9px;border:1.5px solid #3de8c866;border-radius:14px;background:linear-gradient(165deg,#105366,#07293a);color:#eafffb;text-align:center;font:600 10px Poppins;overflow:hidden}
+#featureHub .anime-person img{display:block;width:100%;height:112px;object-fit:cover;object-position:top center;border-radius:9px;background:#041923;margin-bottom:6px}
+#featureHub .anime-person.selected{border-color:#b4fff1;box-shadow:0 0 0 2px #38e6c955,0 0 15px #19e6c655}
+#featureHub .anime-person small{display:block;color:#9fd8d0;font-size:9px;margin-top:3px}
+span.pcav-img,span.profile-avatar-large{display:inline-block;background:center/contain no-repeat;vertical-align:middle}
+#profileCorner .pcav span.pcav-img{width:28px;height:28px}
+#featureHub span.pcav-img{width:28px;height:28px}
+#featureHub span.profile-avatar-large{width:84px;height:84px}
+#featureHub .bi-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+#featureHub .bi-av{padding:10px 4px 8px;border:1.5px solid #3de8c866;border-radius:14px;background:linear-gradient(165deg,#105366,#07293a);color:#eafffb;text-align:center;font:600 10px Poppins;box-shadow:0 3px 0 #031820}
+#featureHub .bi-av i{display:block;width:62px;height:62px;margin:0 auto 6px;background:center/contain no-repeat;filter:drop-shadow(0 3px 3px #0008)}
+#featureHub .bi-av.selected{border-color:#b4fff1;box-shadow:0 0 0 2px #38e6c955,0 0 15px #19e6c655}
+#featureHub .emo-row{display:flex;flex-wrap:wrap;gap:8px}
+#featureHub .emo{width:44px;height:44px;border:1.5px solid #3de8c855;border-radius:12px;background:#07293a;font-size:24px;line-height:1}
+#featureHub .emo.selected{border-color:#b4fff1;box-shadow:0 0 12px #19e6c688}
+#featureHub .pcav-img{width:25px;height:25px;object-fit:cover;object-position:top center;border-radius:50%;border:1px solid #b4fff1;vertical-align:middle}
+#featureHub .profile-avatar-large{width:76px;height:76px;object-fit:cover;object-position:top center;border-radius:18px;border:2px solid #3de8c8;box-shadow:0 0 16px #19e6c655}
+
 /* tutorial */
 .tcard{position:relative;margin-top:46px;padding:46px 14px 14px;text-align:center;border:1.5px solid #3de8c8cc;border-radius:26px;background:linear-gradient(165deg,#0d4a5c 0%,#06283a 100%);box-shadow:0 0 26px #19e6c63a,0 12px 26px #0007,inset 0 1px 0 #ffffff22}
 .tcard .mas{position:absolute;left:50%;top:-44px;width:84px;height:84px;margin-left:-42px;background:var(--d6) center/contain no-repeat;filter:drop-shadow(0 6px 4px #0008);z-index:1}
@@ -513,10 +537,20 @@ if('serviceWorker' in navigator&&location.protocol.startsWith('http'))addEventLi
  const level=()=>Math.floor(data.xp/100)+1;
  const hub=$id('featureHub'),content=$id('fhContent');
  let page='home';
- function syncCorner(){const b=$id('profileCorner');if(b){b.querySelector('.pcav').textContent=data.avatar||'🙂';const n=b.querySelector('.pnm');n.textContent=(data.name&&data.name!=='Player')?data.name:'PROFILE';n.style.textTransform=(data.name&&data.name!=='Player')?'none':''}}
+ let avatarAnime=null,avatarChars=[],avatarBusy=false,avatarError='',avatarFilter='',offlinePackBusy=false,offlinePackProgress=0,offlinePackDone=0,offlinePackPartial=0;
+ // Offline avatar store: character lists and portrait files are kept in IndexedDB.
+ const OFF_DB='ludo-anime-offline-v1';
+ const tfetch=(u,o)=>{let t;const to=new Promise((_,rej)=>{t=setTimeout(()=>rej(Object.assign(new Error('The connection timed out. Please try again.'),{name:'AbortError'})),15000)});return Promise.race([fetch(u,o),to]).finally(()=>clearTimeout(t))};
+ function offlineDB(){return new Promise((resolve,reject)=>{if(typeof indexedDB==='undefined'){reject(new Error('Offline storage is not available here. Please use the installed Ludo app.'));return}setTimeout(()=>reject(new Error('Offline storage did not respond. Please use the installed Ludo app.')),5000);const q=indexedDB.open(OFF_DB,1);q.onupgradeneeded=()=>q.result.createObjectStore('items',{keyPath:'id'});q.onsuccess=()=>resolve(q.result);q.onerror=()=>reject(q.error)})}
+ async function offlinePut(id,value){const db=await offlineDB();return new Promise((resolve,reject)=>{const tx=db.transaction('items','readwrite');tx.objectStore('items').put({id,value});tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error)})}
+ async function offlineGet(id){const db=await offlineDB();return new Promise((resolve,reject)=>{const q=db.transaction('items').objectStore('items').get(id);q.onsuccess=()=>resolve(q.result?.value??null);q.onerror=()=>reject(q.error)})}
+ const blobData=blob=>new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=()=>reject(r.error);r.readAsDataURL(blob)});
+ const BUILTIN=[['badge0','Red','Red Star'],['badge1','Green','Green Star'],['badge2','Yellow','Gold Star'],['badge3','Blue','Blue Star'],['trophy','Champion','Champion'],['d6','Lucky Six','Lucky Six']];
+ const avatarView=(a,cls='')=>a&&typeof a==='object'&&a.builtin?`<span class="${cls}" role="img" aria-label="${esc(a.name||'Avatar')}" style="background-image:var(--${esc(a.builtin)})"></span>`:a&&typeof a==='object'&&a.image?`<img class="${cls}" src="${esc(a.image)}" alt="${esc(a.name||'Anime avatar')}" loading="lazy">`:(a&&typeof a==='string'?esc(a):'🙂');
+ function syncCorner(){const b=$id('profileCorner');if(b){b.querySelector('.pcav').innerHTML=avatarView(data.avatar,'pcav-img');const n=b.querySelector('.pnm');n.textContent=(data.name&&data.name!=='Player')?data.name:'PROFILE';n.style.textTransform=(data.name&&data.name!=='Player')?'none':''}}
  function open(p='home'){page=p;hub.classList.remove('hide');render()}
  function close(){hub.classList.add('hide')}
- function go(p){page=p;render()}
+ function go(p){if(p==='avatar'&&page!=='avatar'){avatarAnime=null;avatarFilter='';avatarError=''}page=p;render()}
  function card(s){return `<div class="fhcard">${s}</div>`}
  function btn(t,fn,cls='fhbtn'){return `<button class="${cls}" data-act="${fn}">${t}</button>`}
  const features=[
@@ -526,9 +560,9 @@ if('serviceWorker' in navigator&&location.protocol.startsWith('http'))addEventLi
   ['🔊','Sound Controls','sound'],['🎯','Daily Challenges','challenges'],
   ['🧑‍🎤','Choose Avatar','avatar'],['🎡','Lucky Spin','spin']
  ];
- function home(){return card(`<div class="fhmuted">WELCOME BACK</div><h2 style="margin:5px 0 4px">${esc(data.name)} ${data.avatar}</h2><div class="fhmuted">LEVEL ${level()} · ${data.xp} XP</div><div class="fhbar"><i style="width:${data.xp%100}%"></i></div><div class="fhmuted" style="margin-top:6px">${100-data.xp%100} XP to next level</div>`)
+ function home(){return card(`<div class="fhmuted">WELCOME BACK</div><h2 style="margin:5px 0 4px">${avatarView(data.avatar,'pcav-img')} ${esc(data.name)}</h2><div class="fhmuted">LEVEL ${level()} · ${data.xp} XP</div><div class="fhbar"><i style="width:${data.xp%100}%"></i></div><div class="fhmuted" style="margin-top:6px">${100-data.xp%100} XP to next level</div>`)
  + `<div class="fhgrid">${features.map(f=>`<button class="fhitem" data-page="${f[2]}"><b>${f[0]} ${f[1]}</b><span>Open ${f[1].toLowerCase()}</span></button>`).join('')}</div>`}
- function profile(){return card(`<div style="font-size:38px;text-align:center">${data.avatar}</div><label class="fhmuted">PLAYER NAME</label><input id="fhName" maxlength="16" value="${esc(data.name)}"><div class="fhrow"><span>Level</span><b>${level()}</b></div><div class="fhrow"><span>Total XP</span><b>${data.xp}</b></div><div class="fhrow"><span>Games played</span><b>${data.games}</b></div><div class="fhrow"><span>Wins</span><b>${data.wins}</b></div>${btn('Save profile','saveprofile')}${btn('Choose avatar','avatar')}`)
+ function profile(){return card(`<div style="text-align:center;margin-bottom:10px">${avatarView(data.avatar,'profile-avatar-large')}</div><label class="fhmuted">PLAYER NAME</label><input id="fhName" maxlength="16" value="${esc(data.name)}"><div class="fhrow"><span>Level</span><b>${level()}</b></div><div class="fhrow"><span>Total XP</span><b>${data.xp}</b></div><div class="fhrow"><span>Games played</span><b>${data.games}</b></div><div class="fhrow"><span>Wins</span><b>${data.wins}</b></div>${btn('Save profile','saveprofile')}${btn('Choose avatar','avatar')}`)
  }
  const badgeList=()=>[['First Game',data.games>=1,'Play your first match'],['First Win',data.wins>=1,'Win a match'],['Rising Star',data.xp>=100,'Earn 100 XP'],['Veteran',data.games>=10,'Play 10 matches'],['Champion',data.wins>=5,'Win 5 matches']];
  function achievements(){return card(`<div class="fhmuted">COLLECT BADGES BY PLAYING</div>${badgeList().map(b=>`<div class="fhrow"><span>${b[1]?'🏅':'🔒'} ${b[0]}<div class="fhmuted">${b[2]}</div></span><b>${b[1]?'UNLOCKED':'LOCKED'}</b></div>`).join('')}`)}
@@ -538,12 +572,89 @@ if('serviceWorker' in navigator&&location.protocol.startsWith('http'))addEventLi
  function themes(){return card(`<p class="fhmuted">Choose the colour of the menus. The game board stays the same.</p>${[['teal','Ocean Teal'],['deep','Deep Blue'],['mint','Mint Green']].map(([v,n])=>`<div class="fhrow"><span>${n}</span>${btn(data.theme===v?'Selected':'Apply',`theme:${v}`)}</div>`).join('')}`)}
  function sound(){const sOn=!$id('snd').classList.contains('off');return card(`<div class="fhrow"><span>Sound effects</span>${btn(sOn?'ON':'OFF','soundfx')}</div><div class="fhrow"><span>Background music</span>${btn(mOn?'ON':'OFF','music')}</div><p class="fhmuted">These controls are linked to the game's existing sound and music settings.</p>`)}
  function challenges(){if(data.challengeDay!==today()){data.challengeDay=today();data.challenge={plays:0,wins:0,rolls:0};save()}let tasks=[['Play 1 match',data.challenge.plays,1],['Win 1 match',data.challenge.wins,1],['Play 3 matches',data.challenge.plays,3]];return card(`<div class="fhmuted">DAILY CHALLENGES · ${today()}</div>${tasks.map(t=>`<div class="fhrow"><span>${t[0]}</span><b>${Math.min(t[1],t[2])}/${t[2]} ${t[1]>=t[2]?'✓':''}</b></div>`).join('')}<p class="fhmuted">Challenges update as you finish matches.</p>`)}
- function avatar(){let av=['🙂','😎','🤩','😈','🐼','🦊','🐯','🐸','🐲','👑','🚀','⚡'];return card(`<div class="fhgrid">${av.map(a=>`<button class="fhitem" data-avatar="${a}" style="font-size:27px;text-align:center">${a}<span>${a===data.avatar?'Selected':'Choose'}</span></button>`).join('')}</div>`)}
+ const animeCatalog=[
+  ['Demon Slayer','Kimetsu no Yaiba'],['One Piece','One Piece'],['Naruto Classic','Naruto'],['Naruto Shippuden','Naruto Shippuden'],['Boruto: Naruto Next Generations','Boruto: Naruto Next Generations'],['Solo Leveling','Ore dake Level Up na Ken'],['Bleach','Bleach'],['That Time I Got Reincarnated as a Slime (Tensura)','Tensei shitara Slime Datta Ken'],['Black Clover','Black Clover'],['Dororo','Dororo'],['The Misfit of Demon King Academy','Maou Gakuin no Futekigousha'],['One Punch Man','One Punch Man'],['Vinland Saga','Vinland Saga'],['Mashle: Magic and Muscles','Mashle'],['A Silent Voice','Koe no Katachi'],['Attack on Titan','Shingeki no Kyojin'],['Classroom of the Elite','Youkoso Jitsuryoku Shijou Shugi no Kyoushitsu e'],['Chainsaw Man','Chainsaw Man'],['Death Note','Death Note'],['Failure Frame: I Became the Strongest and Annihilated Everything with Low-Level Spells','Hazure Waku no Joutai Ijou Skill'],["Frieren: Beyond Journey's End",'Sousou no Frieren'],['Gachiakuta','Gachiakuta'],['Shangri-La Frontier','Shangri-La Frontier'],['Wind Breaker','Wind Breaker'],['Your Name','Kimi no Na wa'],['Jujutsu Kaisen','Jujutsu Kaisen'],['My Hero Academia','Boku no Hero Academia'],['Sakamoto Days','Sakamoto Days'],['The Daily Life of the Immortal King','Xian Wang de Richang Shenghuo'],['The Rising of the Shield Hero','Tate no Yuusha no Nariagari'],['The God of High School','The God of High School'],['Tower of God','Kami no Tou'],['Parasyte: The Maxim','Kiseijuu: Sei no Kakuritsu'],['The Eminence in Shadow','Kage no Jitsuryokusha ni Naritakute'],['Overlord','Overlord'],['I Got a Cheat Skill in Another World and Became Unrivaled in Real World Too','Isekai de Cheat Skill'],['I Have Somehow Gotten Stronger When I Improved My Farm-Related Skills','Isekai Nonbiri Nouka'],['Lord of Mysteries','Guimi Zhi Zhu'],['Headhunted to Another World: From Salaryman to Big Four','Salaryman ga Isekai ni Ittara Shitennou ni Natta Hanashi'],['Tokyo Ghoul','Tokyo Ghoul'],['Record of Ragnarok','Shuumatsu no Walküre'],['Lookism','Lookism'],['Akame ga Kill!','Akame ga Kill!'],['Gate','Gate: Jieitai Kanochi nite, Kaku Tatakaeri'],['Mob Psycho 100','Mob Psycho 100'],['Ragna Crimson','Ragna Crimson'],['Mushoku Tensei','Mushoku Tensei: Isekai Ittara Honki Dasu'],['Blue Lock','Blue Lock'],['Witch Hat Atelier','Tongari Boushi no Atelier'],['The Reincarnation of the Strongest Exorcist in the World','Saikyou Onmyouji no Isekai Tenseiki'],['Sword Art Online','Sword Art Online'],['Demon King Daimao','Ichiban Ushiro no Daimaou'],['DAN DA DAN','Dandadan'],['The Tunnel to Summer, the Exit of Goodbyes','Natsu e no Tunnel, Sayonara no Deguchi'],["A Gatherer's Adventure in Isekai",'Tondemo Skill de Isekai Hourou Meshi'],['Cautious Hero: The Hero Is Overpowered but Overly Cautious','Shinchou Yuusha'],['Overgeared','Overgeared'],['Black Torch','Black Torch'],['Arifureta','Arifureta Shokugyou de Sekai Saikyou'],['Tomb Raider King','Dogulwang'],['The Exiled Heavy Knight Knows How to Game the System','The Exiled Heavy Knight'],['The Brilliant Healer’s New Life in the Shadows','Yami Healer'],["So I'm a Spider, So What?",'Kumo desu ga, Nani ka?'],['Haikyu!!','Haikyuu!!'],['Fullmetal Alchemist: Brotherhood','Fullmetal Alchemist: Brotherhood'],['Spirited Away','Sen to Chihiro no Kamikakushi']
+ ];
+ async function loadQuickPack(){
+  avatarAnime=['Quick Offline Pack',''];avatarChars=[];avatarBusy=true;avatarError='';avatarFilter='';render();let hasCache=false;try{hasCache=!!(await offlineGet('quick-pack-list'))}catch(_){}if(!hasCache&&!navigator.onLine){avatarBusy=false;avatarError='No internet connection. Connect once to download these 6 portraits. The built-in avatars work offline.';render();return}
+  const specs=[
+   {name:'Tanjiro',anime:'Demon Slayer',match:n=>n.includes('tanjiro')||n.includes('tanjirou')},
+   {name:'Inosuke',anime:'Demon Slayer',match:n=>n.includes('inosuke')},
+   {name:'Zenitsu',anime:'Demon Slayer',match:n=>n.includes('zenitsu')},
+   {name:'Zoro',anime:'One Piece',match:n=>n.includes('zoro')},
+   {name:'Luffy',anime:'One Piece',match:n=>n.includes('luffy')},
+   {name:'Sanji',anime:'One Piece',match:n=>n.includes('sanji')}
+  ];
+  try{
+   const cached=await offlineGet('quick-pack-list');
+   if(cached&&cached.length===6){let ready=[];for(const c of cached){const blob=await offlineGet('quick-pack-img:'+c.id);if(!blob)throw new Error('Some quick-pack portraits are not saved on this device yet. Connect once and tap Download 6 Offline Avatars.');ready.push({...c,image:URL.createObjectURL(blob)})}avatarChars=ready;avatarBusy=false;render();return}
+   const wait=ms=>new Promise(r=>setTimeout(r,ms));
+   const get=async url=>{let res=await tfetch(url,{headers:{'Accept':'application/json'}});if(res.status===429){await wait(1600);res=await tfetch(url,{headers:{'Accept':'application/json'}})}if(!res.ok)throw new Error('Could not download the six portraits right now. Please try again while online.');return res.json()};
+   const byAnime={};
+   for(const title of ['Demon Slayer','One Piece']){
+    const q=title==='Demon Slayer'?'Kimetsu no Yaiba':'One Piece';
+    const sr=await get('https://api.jikan.moe/v4/anime?q='+encodeURIComponent(q)+'&limit=5&sfw');
+    const match=(sr.data||[]).find(x=>String(x.title||'').toLowerCase().includes(q.toLowerCase()))||(sr.data||[])[0];
+    if(!match)throw new Error('Could not find '+title+' in the character database.');
+    await wait(550);const cast=await get('https://api.jikan.moe/v4/anime/'+match.mal_id+'/characters');byAnime[title]=(cast.data||[]).map(x=>({id:x.character?.mal_id,name:x.character?.name||'',image:x.character?.images?.webp?.image_url||x.character?.images?.jpg?.image_url,role:x.role||'Character'})).filter(x=>x.id&&x.image);
+    await wait(550);
+   }
+   const picked=specs.map(spec=>{const c=(byAnime[spec.anime]||[]).find(x=>spec.match(x.name.toLowerCase()));return c?{...c,quickName:spec.name,anime:spec.anime}:null});
+   if(picked.some(x=>!x))throw new Error('The character service did not return all six requested characters. Please retry later.');
+   for(const c of picked){const res=await tfetch(c.image,{mode:'cors'});if(!res.ok)throw new Error('Could not save '+c.quickName+' portrait for offline use. Please retry.');await offlinePut('quick-pack-img:'+c.id,await res.blob())}
+   const meta=picked.map(({id,name,role,quickName,anime})=>({id,name,role,quickName,anime}));await offlinePut('quick-pack-list',meta);
+   avatarChars=[];for(const c of meta){const blob=await offlineGet('quick-pack-img:'+c.id);avatarChars.push({...c,image:URL.createObjectURL(blob)})}
+  }catch(e){avatarError=(e&&e.name==='AbortError')||!navigator.onLine?'No internet connection. Connect once to download these 6 portraits. The built-in avatars work offline.':(e.message||'Quick offline pack could not be prepared.')}
+  finally{avatarBusy=false;render()}
+ }
+ function avatar(){
+  if(avatarAnime&&avatarAnime[0]==='Quick Offline Pack'){
+   if(avatarBusy)return card('<div class="fhmuted">PREPARING YOUR 6 OFFLINE AVATARS…</div><p class="fhmuted">Please keep the app open.</p>');
+   if(avatarError)return card('<h3>Quick Offline Pack</h3><p class="fhmuted">'+esc(avatarError)+'</p>'+btn('Retry / Download 6 Offline Avatars','quickpack')+btn('← All Anime','animeback'));
+   return card('<div class="fhmuted">SIX QUICK AVATARS · SAVED ON THIS DEVICE</div><div class="anime-cast">'+avatarChars.map(c=>{const selected=data.avatar&&typeof data.avatar==='object'&&data.avatar.id===c.id;return `<button class="anime-person ${selected?'selected':''}" data-avatar-choice="${esc(String(c.id))}"><img src="${esc(c.image)}" alt="${esc(c.quickName)}" loading="lazy"><b>${esc(c.quickName)}</b><small>${selected?'✓ Selected':esc(c.anime)}</small></button>`}).join('')+'</div>'+btn('← All Anime','animeback'));
+  }
+  if(avatarAnime){
+   const title=avatarAnime[0];
+   if(avatarBusy)return card(`<div class="fhmuted">LOADING CHARACTERS FROM ${esc(title.toUpperCase())}…</div><div style="padding:26px;text-align:center;font-size:30px">✦</div>`);
+   if(avatarError)return card(`<h3>${esc(title)}</h3><p class="fhmuted">${esc(avatarError)}</p>${btn('Try again','reloadanime')}${btn('← All Anime','animeback')}`);
+   const chars=avatarChars.filter(c=>!avatarFilter||c.name.toLowerCase().includes(avatarFilter.toLowerCase()));
+   return card(`<div class="fhmuted">${avatarChars.length} CHARACTERS FOUND · MAIN CAST FIRST</div>${avatarError?`<p class="fhmuted">${esc(avatarError)}</p>`:''}<input class="anime-search" id="animeCharSearch" placeholder="Search characters…" value="${esc(avatarFilter)}"><div class="anime-cast">${chars.map(c=>{const selected=data.avatar&&typeof data.avatar==='object'&&data.avatar.id===c.id;return `<button class="anime-person ${selected?'selected':''}" data-avatar-choice="${esc(String(c.id))}"><img src="${esc(c.image)}" alt="${esc(c.name)}" loading="lazy"><b>${esc(c.name)}</b><small>${selected?'✓ Selected':esc(c.role||'Character')}</small></button>`}).join('')||'<p class="fhmuted">No matching characters.</p>'}</div>${btn('← All Anime','animeback')}`);
+  }
+  const cats=animeCatalog.filter(a=>!avatarFilter||a[0].toLowerCase().includes(avatarFilter.toLowerCase()));
+  const curB=data.avatar&&typeof data.avatar==='object'&&data.avatar.builtin;
+  const emos=['🙂','😎','🤩','😈','🐼','🦊','🐯','🐸','🐲','👑','🚀','⚡'];
+  const offline=card(`<div class="fhmuted">BUILT-IN AVATARS · ALWAYS WORK OFFLINE</div><div class="bi-grid">${BUILTIN.map(b=>`<button class="bi-av ${curB===b[0]?'selected':''}" data-builtin="${b[0]}"><i style="background-image:var(--${b[0]})"></i>${b[1]}${curB===b[0]?'<br>✓ Selected':''}</button>`).join('')}</div><div class="fhmuted" style="margin-top:12px">EMOJI AVATARS</div><div class="emo-row">${emos.map(e=>`<button class="emo ${data.avatar===e?'selected':''}" data-emoji="${e}">${e}</button>`).join('')}</div>`);
+  return offline+card(`<div class="fhmuted">66 ANIME SERIES · REAL CHARACTER PORTRAITS · NEEDS INTERNET</div><p class="fhmuted">Choose an Anime to browse its characters. One Piece, Naruto and Tensura have their own full cast lists.</p>${btn('⚡ Quick Offline Pack · 6 Characters','quickpack')}<p class="fhmuted">Tanjiro, Zoro, Luffy, Sanji, Inosuke and Zenitsu. These portraits come from an online anime database and are not inside the app. Open this once while online to save them on this device.</p>${!offlinePackBusy&&avatarError&&!avatarAnime?`<p class="fhmuted">${esc(avatarError)}</p>`:''}${offlinePackBusy?`<div class="fhrow"><span>Saving offline packs…</span><b>${offlinePackProgress}/66</b></div><div class="fhbar"><i style="width:${Math.round(offlinePackProgress/66*100)}%"></i></div><p class="fhmuted">Saved ${offlinePackDone} Anime packs so far. Keep this screen open and stay online.</p>`:btn('⬇ Prepare all Anime for offline','downloadall')+`<p class="fhmuted">Run this once while online. After the packs are saved, portraits you downloaded will work offline on this device.</p>`}<input class="anime-search" id="animeCatSearch" placeholder="Search all 66 Anime…" value="${esc(avatarFilter)}"><div class="anime-grid">${cats.map(a=>`<button class="anime-cat" data-anime="${esc(a[0])}">${esc(a[0])}<small>Browse characters →</small></button>`).join('')}</div>`);
+ }
+ async function loadAnime(a){avatarAnime=a;avatarChars=[];avatarBusy=true;avatarError='';avatarFilter='';if(!offlinePackBusy)render();try{
+   const wait=ms=>new Promise(r=>setTimeout(r,ms));
+   const get=async url=>{let res=await tfetch(url,{headers:{'Accept':'application/json'}});if(res.status===429){await wait(1400);res=await tfetch(url,{headers:{'Accept':'application/json'}})}if(!res.ok)throw new Error('Anime character service is temporarily unavailable. Please try again.');return res.json()};
+   const search=await get('https://api.jikan.moe/v4/anime?q='+encodeURIComponent(a[1])+'&limit=5&sfw');
+   const list=search.data||[];let match=list.find(x=>String(x.title||'').toLowerCase().includes(a[1].toLowerCase()))||list[0];
+   if(!match)throw new Error('Could not find this Anime in the character database yet. Try another category later.');
+   await wait(450);
+   let castRows=[];let pageNo=1,hasMore=true;
+   while(hasMore&&pageNo<=4){const cast=await get('https://api.jikan.moe/v4/anime/'+match.mal_id+'/characters?page='+pageNo);castRows.push(...(cast.data||[]));hasMore=!!cast.pagination?.has_next_page;pageNo++;if(hasMore)await wait(450)}
+   avatarChars=castRows.map(x=>({id:x.character?.mal_id||x.character?.url||x.character?.name,name:x.character?.name||'Unknown',image:x.character?.images?.webp?.image_url||x.character?.images?.jpg?.image_url,role:x.role||'Character'})).filter(x=>x.image).sort((x,y)=>(x.role==='Main'?0:1)-(y.role==='Main'?0:1));
+   if(!avatarChars.length)throw new Error('No character portraits were returned for this Anime.');
+   // Save the list and portrait files for use without an internet connection.
+   await offlinePut('cast:'+a[0],avatarChars);
+   let saved=0;for(let i=0;i<avatarChars.length;i+=4){await Promise.all(avatarChars.slice(i,i+4).map(async c=>{try{const res=await tfetch(c.image,{mode:'cors'});if(res.ok){await offlinePut('img:'+a[0]+':'+c.id,await res.blob());saved++}}catch(_){}}))}
+   await offlinePut('status:'+a[0],{saved,total:avatarChars.length,at:Date.now()});
+  }catch(e){
+   try{const cached=await offlineGet('cast:'+a[0]);if(cached?.length){avatarChars=cached;for(const c of avatarChars){try{const b=await offlineGet('img:'+a[0]+':'+c.id);if(b)c.image=URL.createObjectURL(b)}catch(_){}}if(!avatarChars.some(c=>c.image.startsWith('blob:')))avatarError='Saved character list found, but portraits were not cached. Connect once to download them.';else avatarError='Offline mode · using saved portraits.'}else avatarError=e.message||'No offline pack yet. Connect to the internet once to save this Anime.'}catch(_){avatarError=e.message||'No offline pack yet. Connect to the internet once to save this Anime.'}
+  }finally{avatarBusy=false;if(!offlinePackBusy)render()}}
+
+ async function downloadAllAnime(){if(offlinePackBusy)return;offlinePackBusy=true;offlinePackProgress=0;offlinePackDone=0;offlinePackPartial=0;avatarAnime=null;avatarError='';render();for(let i=0;i<animeCatalog.length;i++){const item=animeCatalog[i];try{await loadAnime(item);const st=await offlineGet('status:'+item[0]);if(st&&st.saved===st.total&&st.total>0)offlinePackDone++;else if(st&&st.saved>0)offlinePackPartial++;}catch(_){}offlinePackProgress=i+1;avatarAnime=null;avatarChars=[];avatarBusy=false;render();if(i<animeCatalog.length-1)await new Promise(r=>setTimeout(r,1200));}offlinePackBusy=false;avatarAnime=null;avatarChars=[];avatarError='Offline preparation finished: '+offlinePackDone+' complete packs, '+offlinePackPartial+' partial packs. Open any partial Anime while online to retry saving its portraits.';render();}
  function spin(){let used=data.spin===today();return card(`<div style="font-size:48px;text-align:center">🎡</div><h2 style="text-align:center">Lucky Spin</h2><p class="fhmuted" style="text-align:center">One free spin every day. Win XP for your profile.</p>${btn(used?'Come back tomorrow':'SPIN NOW','spin:'+(!used))}`)}
  const pages={home,profile,achievements,rewards,stats,leaderboard,themes,sound,challenges,avatar,spin};
- function render(){ $id('fhTitle').textContent=page==='home'?'Player Center':features.find(f=>f[2]===page)?.[1]||'Player Center';content.innerHTML=page==='home'?home():((pages[page]||home)()); if(page!=='home')content.insertAdjacentHTML('beforeend',`<div style="display:flex;gap:8px;margin-top:10px">${btn('← Back','back')}</div>`); }
+ function render(){ const keepY=hub.scrollTop;$id('fhTitle').textContent=page==='home'?'Player Center':features.find(f=>f[2]===page)?.[1]||'Player Center';content.innerHTML=page==='home'?home():((pages[page]||home)()); if(page!=='home')content.insertAdjacentHTML('beforeend',`<div style="display:flex;gap:8px;margin-top:10px">${btn('← Back','back')}</div>`); if(keepY)hub.scrollTop=keepY; }
  function action(a){
-  if(a==='back'){go('home');return}
+  if(a==='back'){if(page==='avatar'&&avatarAnime){avatarAnime=null;avatarChars=[];avatarFilter='';avatarError='';render();return}go('home');return}
+  if(a==='animeback'){avatarAnime=null;avatarChars=[];avatarFilter='';avatarError='';render();return}
+  if(a==='downloadall'){downloadAllAnime();return}
+  if(a==='quickpack'){loadQuickPack();return}
+  if(a==='reloadanime'&&avatarAnime){loadAnime(avatarAnime);return}
   if(pages[a]){go(a);return}
   if(a==='saveprofile'){let v=$id('fhName')?.value.trim();if(v)data.name=v.slice(0,16);save();render();return}
   if(a==='claim'){if(data.claimed!==today()){data.claimed=today();data.xp+=25;save();render()}return}
@@ -553,7 +664,8 @@ if('serviceWorker' in navigator&&location.protocol.startsWith('http'))addEventLi
   if(a==='spin:true'){if(data.spin!==today()){data.spin=today();let reward=[10,15,20,25,30,50][Math.floor(Math.random()*6)];data.xp+=reward;save();render();content.insertAdjacentHTML('afterbegin',`<div class="fhcard fhwin">You won ${reward} XP!</div>`)}return}
   if(a==='spin:false'){return}
  }
- content.addEventListener('click',e=>{let p=e.target.closest('[data-page]');if(p){go(p.dataset.page);return}let av=e.target.closest('[data-avatar]');if(av){data.avatar=av.dataset.avatar;save();render();return}let a=e.target.closest('[data-act]');if(a)action(a.dataset.act)});
+ content.addEventListener('click',e=>{let p=e.target.closest('[data-page]');if(p){go(p.dataset.page);return}let cat=e.target.closest('[data-anime]');if(cat){const item=animeCatalog.find(x=>x[0]===cat.dataset.anime);if(item)loadAnime(item);return}let bi=e.target.closest('[data-builtin]');if(bi){const b=BUILTIN.find(x=>x[0]===bi.dataset.builtin);if(b){data.avatar={builtin:b[0],name:b[2]};save();render()}return}let em=e.target.closest('[data-emoji]');if(em){data.avatar=em.dataset.emoji;save();render();return}let av=e.target.closest('[data-avatar-choice]');if(av){const c=avatarChars.find(x=>String(x.id)===av.dataset.avatarChoice);if(c){const picked={id:c.id,name:c.name,image:c.image,anime:avatarAnime?.[0]||''};data.avatar=picked;save();render();(async()=>{try{let blob;if(c.image.startsWith('blob:')){const rr=await tfetch(c.image);blob=await rr.blob()}else{const rr=await tfetch(c.image,{mode:'cors'});blob=await rr.blob()}picked.image=await blobData(blob);data.avatar=picked;save();if(!hub.classList.contains('hide'))render()}catch(_){}})()}return}let a=e.target.closest('[data-act]');if(a)action(a.dataset.act)});
+ content.addEventListener('input',e=>{if(e.target.id==='animeCatSearch'||e.target.id==='animeCharSearch'){const pos=e.target.selectionStart;avatarFilter=e.target.value;render();const next=$id(e.target.id);if(next){next.focus();next.setSelectionRange(pos,pos)}}});
  $id('fhClose').onclick=close;
  $id('profileCorner').onclick=()=>open('profile');
  const entry=document.createElement('button');entry.id='featureEntry';entry.textContent='PLAYER CENTER · 10 FEATURES';entry.onclick=()=>open('home');
