@@ -1,5 +1,5 @@
-const C='ludo-v19',A=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png','./icon-maskable-512.png','./enhancements.css','./enhancements.js'];
-self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(A)));self.skipWaiting()});
-self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!=C).map(x=>caches.delete(x)))));self.clients.claim()});
-// Network-first update strategy; offline fallback to cache.
-self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;e.respondWith(fetch(e.request).then(n=>{if(n&&(n.ok||n.type==='opaque')){const cp=n.clone();caches.open(C).then(c=>c.put(e.request,cp))}return n}).catch(()=>caches.match(e.request).then(r=>r||caches.match('./index.html'))))});
+const CACHE='ludo-v20';
+const CORE=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png','./icon-maskable-512.png','./enhancements.css','./enhancements.js'];
+self.addEventListener('install',event=>{event.waitUntil((async()=>{const c=await caches.open(CACHE);await Promise.all(CORE.map(async u=>{try{const r=await fetch(u,{cache:'reload'});if(r.ok)await c.put(u,r)}catch(e){console.warn('Precache skipped',u)}}));await self.skipWaiting()})())});
+self.addEventListener('activate',event=>{event.waitUntil((async()=>{await Promise.all((await caches.keys()).filter(k=>k.startsWith('ludo-')&&k!==CACHE).map(k=>caches.delete(k)));await self.clients.claim()})())});
+self.addEventListener('fetch',event=>{const q=event.request;if(q.method!=='GET'||new URL(q.url).origin!==self.location.origin)return;event.respondWith((async()=>{try{const r=await fetch(q);if(r.ok){caches.open(CACHE).then(c=>c.put(q,r.clone())).catch(()=>{})}return r}catch(e){const cached=await caches.match(q);if(cached)return cached;if(q.mode==='navigate')return await caches.match('./index.html')||new Response('Offline page unavailable',{status:503});return new Response('Resource unavailable offline',{status:503})}})())});
