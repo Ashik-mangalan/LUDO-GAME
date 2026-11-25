@@ -106,7 +106,7 @@ body[data-ui-theme=mint]{--bg1:#126b48;--bg2:#05241a;--ac:#b9ffd6;--ac2:#27c97c;
 .seg{display:flex;gap:6px}.seg .btn{flex:1;min-width:0}
 .srow{display:flex;align-items:center;gap:8px;padding:6px 8px;border:1.5px solid #3de8c844;border-radius:14px;background:#04202b}
 .srow.off{opacity:.35;pointer-events:none}
-.srow i{flex:none;width:38px;height:38px;background:center/contain no-repeat;filter:drop-shadow(0 2px 2px #0007)}
+.srow i{flex:none;width:38px;height:38px;background-position:center;background-size:contain;background-repeat:no-repeat;filter:drop-shadow(0 2px 2px #0007)}
 .srow input{flex:1;min-width:0;height:38px;border:0;background:none;color:#fff;font:700 16px Poppins,sans-serif;outline:none;-webkit-user-select:text;user-select:text}
 .srow input::placeholder{color:#ffffff7a}
 .srow .btn{flex:none;width:110px;--h:40px;font-size:11px}
@@ -366,16 +366,16 @@ body:before{
 #topRow{left:16px;right:16px}
 #gset,#profileCorner,.ib{
  border:1px solid rgba(161,177,255,.24)!important;
- background:linear-gradient(145deg,#222b4a,#131a30)!important;
+ background-color:#1b2444!important;
  color:#eef0ff!important;border-radius:16px!important;
  box-shadow:0 8px 22px #0005,inset 0 1px 0 #ffffff12!important;
 }
+#gset,#profileCorner{background-image:linear-gradient(145deg,#222b4a,#131a30)!important}
 #profileCorner{padding:6px 12px!important}
 #mid{isolation:isolate}
 #bwrap{
- border-radius:28px!important;background:#f8f8ff!important;
- border:5px solid #202849!important;
- box-shadow:0 0 0 1px rgba(155,140,255,.6),0 0 0 8px rgba(155,140,255,.07),0 24px 54px #0009!important;
+ border-radius:28px!important;
+ box-shadow:0 0 0 3px #202849,0 0 0 4px rgba(155,140,255,.6),0 0 0 9px rgba(155,140,255,.07),0 24px 54px #0009!important;
 }
 #bwrap:before{inset:-12px!important;border:1px solid rgba(101,231,255,.2)!important;border-radius:34px!important}
 #board{filter:drop-shadow(0 5px 12px #0005)!important}
@@ -512,7 +512,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid rgba(101,231,255,.55)!
 @media(max-width:420px){
  .card{border-radius:22px!important;padding:14px 12px!important}
  .fhitem{border-radius:17px!important}
- #bwrap{border-radius:21px!important;border-width:4px!important}
+ #bwrap{border-radius:21px!important}
  #bwrap:before{inset:-8px!important;border-radius:27px!important}
  .btn{border-radius:15px!important}
 }
@@ -528,28 +528,18 @@ input:focus,select:focus,textarea:focus{outline:2px solid rgba(101,231,255,.55)!
  border-radius:26px!important;
  border:1px solid rgba(226,232,255,.24)!important;
  box-shadow:0 14px 25px #0007,0 0 0 3px rgba(155,140,255,.10)!important;
- background-color:#101a38!important;
- background-blend-mode:normal!important;
  filter:drop-shadow(0 5px 8px #0006)!important;
- overflow:hidden;
  position:relative;
-}
-.chip:after{
- content:"";position:absolute;inset:5px;border-radius:21px;
- border:1px solid rgba(255,255,255,.13);pointer-events:none;
 }
 .chip.on{
  box-shadow:0 14px 25px #0008,0 0 0 3px rgba(101,231,255,.20),0 0 24px rgba(101,231,255,.17)!important;
  filter:drop-shadow(0 0 12px rgba(101,231,255,.22))!important;
 }
-.chip .pn{font-weight:800!important;font-size:clamp(12px,3.8vw,15px)!important;color:#f5f5ff!important}
-.chip .nm{font-weight:800!important;font-size:clamp(10px,3vw,12px)!important;color:#ffe09a!important}
+.chip .pn{color:#f5f5ff!important}
 .chip .av{filter:drop-shadow(0 2px 4px #0008)!important}
 #bwrap{
- background-color:#f7f8ff!important;
  border-radius:30px!important;
- border:5px solid #1c2545!important;
- box-shadow:0 0 0 1px #9b8cff66,0 0 0 7px #9b8cff12,0 20px 42px #0008!important;
+ box-shadow:0 0 0 3px #1c2545,0 0 0 4px #9b8cff66,0 0 0 8px #9b8cff12,0 20px 42px #0008!important;
 }
 #bwrap:before{
  inset:-10px!important;border-radius:38px!important;
@@ -573,7 +563,6 @@ input:focus,select:focus,textarea:focus{outline:2px solid rgba(101,231,255,.55)!
 }
 @media(max-width:420px){
  .chip{border-radius:22px!important}
- .chip:after{inset:4px;border-radius:18px}
  #bwrap{border-radius:24px!important}
  #bwrap:before{inset:-8px!important;border-radius:31px!important}
  #msg{padding:9px 12px!important;border-radius:15px!important}
