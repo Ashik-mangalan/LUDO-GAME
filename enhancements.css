@@ -48,3 +48,45 @@ input:focus,select:focus,textarea:focus{outline:2px solid rgba(101,244,198,.4)!i
 @media(hover:hover) and (pointer:fine){.fhitem:hover{transform:translateY(-2px);border-color:rgba(255,217,138,.32)!important;box-shadow:0 13px 26px #0005,0 0 15px rgba(101,244,198,.08)!important}.btn:hover{filter:brightness(1.08) drop-shadow(0 8px 14px #0004)!important}}
 @media(max-width:420px){.card{border-radius:21px!important;padding:14px 12px!important}.fhitem{min-height:68px!important;border-radius:17px!important}#bwrap{border-radius:19px}#bwrap:before{inset:-5px;border-radius:24px}}
 @media(prefers-reduced-motion:reduce){#dice.dice-premium-roll{animation:none!important}}
+
+/* ASHIX RELEASE POLISH v3 */
+:root{--ludo-safe-top:env(safe-area-inset-top,0px);--ludo-safe-bottom:env(safe-area-inset-bottom,0px)}
+html{min-height:100%;scroll-behavior:smooth;overscroll-behavior-y:contain}
+body{min-height:100%;min-height:100dvh;overscroll-behavior:none;-webkit-tap-highlight-color:transparent}
+button,[role=button]{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+button:focus-visible,[role=button]:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #b8ffdf!important;outline-offset:3px}
+#app{min-height:var(--ludo-vh,100vh)}
+#top{padding-top:var(--ludo-safe-top)}
+.ov{padding-bottom:calc(18px + var(--ludo-safe-bottom))}
+#featureHub{padding-bottom:calc(24px + var(--ludo-safe-bottom))}
+#profileRecovery{padding-bottom:calc(20px + var(--ludo-safe-bottom))}
+.ludo-net-status{position:fixed;z-index:150;top:calc(10px + var(--ludo-safe-top));right:12px;display:flex;align-items:center;gap:8px;max-width:min(76vw,270px);padding:9px 12px;border:1px solid rgba(137,255,210,.22);border-radius:999px;background:rgba(4,20,14,.94);color:#eafff4;font:700 11px/1.2 system-ui,sans-serif;letter-spacing:.2px;box-shadow:0 8px 24px #0006;backdrop-filter:blur(14px);pointer-events:none;transition:opacity .2s ease,transform .2s ease}
+.ludo-net-status[hidden]{display:none}
+.ludo-net-dot{width:8px;height:8px;flex:0 0 8px;border-radius:50%;background:#ffd98a;box-shadow:0 0 10px currentColor}
+.ludo-net-status[data-state=connected] .ludo-net-dot{background:#65f4c6}
+.ludo-net-status[data-state=polling] .ludo-net-dot{background:#8bd7ff}
+.ludo-net-status[data-state=reconnecting] .ludo-net-dot{background:#ffd98a;animation:netPulse 1s ease-in-out infinite}
+.ludo-net-status[data-state=offline] .ludo-net-dot{background:#ff8585}
+@keyframes netPulse{50%{opacity:.35;transform:scale(.78)}}
+#dice{touch-action:manipulation;user-select:none;-webkit-user-select:none}
+#dice:disabled{cursor:default}
+#pcs .ring{pointer-events:none}
+#featureHub .fhbtn,#profileRecovery button,.btn,.ib{min-height:42px}
+#featureHub .fhbtn{transition:transform .16s ease,filter .16s ease,box-shadow .16s ease}
+#featureHub .fhbtn:active{transform:translateY(1px) scale(.98)}
+#featureHub .fhrow{gap:12px;align-items:center}
+#featureHub .fhrow>*{min-width:0}
+#featureHub .fhrow button{flex-shrink:0}
+@media(max-width:520px){
+ .ludo-net-status{top:calc(7px + var(--ludo-safe-top));right:8px;padding:8px 10px;font-size:10px}
+ #featureHub{padding-left:12px;padding-right:12px}
+ #featureHub .fhrow{padding:11px 0}
+}
+@media(hover:hover) and (pointer:fine){
+ #dice:not(:disabled):hover{filter:drop-shadow(0 0 12px rgba(101,244,198,.5))}
+ #featureHub .fhbtn:hover{filter:brightness(1.1)}
+}
+@media(prefers-reduced-motion:reduce){
+ html{scroll-behavior:auto}
+ *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}

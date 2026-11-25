@@ -773,6 +773,7 @@ if('serviceWorker' in navigator&&location.protocol.startsWith('http'))addEventLi
 const FB=window.__FB||'https://ludo-online-6de47-default-rtdb.asia-southeast1.firebasedatabase.app';
 const $o=id=>document.getElementById(id);
 let room='',tree={},es=null,poll=null,pumpT=null,myKey='',host=false,begun=false,seen=new Set(),evq=[],view='home',want=2,working=false,note='',namesBackup=null,resumeLive=null,startPolling=null;
+const netState=(state,detail='')=>{try{window.dispatchEvent(new CustomEvent('ludo:network',{detail:{state,detail}}))}catch(_){}};
 const withTimeout=(p,ms=12000)=>{let t;return Promise.race([p,new Promise((_,r)=>{t=setTimeout(()=>r(new Error('timeout')),ms)})]).finally(()=>clearTimeout(t))};
 const api=(path,method='GET',body)=>withTimeout(fetch(FB+'/rooms/'+path+'.json',{method,body:body===undefined?undefined:JSON.stringify(body)}).then(r=>{if(!r.ok)throw new Error('http '+r.status);return r.json()}));
 const myName=()=>{try{const d=JSON.parse(localStorage.getItem('ludo-player-center-v1'));if(d&&d.name&&d.name!=='Player')return String(d.name).slice(0,12)}catch(e){}return 'Player'+(10+(Math.random()*90|0))};
@@ -824,19 +825,19 @@ async function startGame(){
 // ---- live data ----
 function openStream(){
  closeStream();tree={};begun=false;seen=new Set();evq=[];let fails=0;
- const startPoll=()=>{if(poll)return;const go=async()=>{try{const d=await api(room);tree=d||{};onTree()}catch(e){}};go();poll=setInterval(go,1300)};
+ const startPoll=()=>{if(poll)return;netState('polling');const go=async()=>{try{const d=await api(room);tree=d||{};netState('connected','Polling fallback');onTree()}catch(e){netState(navigator.onLine?'reconnecting':'offline')}};go();poll=setInterval(go,1300)};
  startPolling=startPoll;
- const connect=()=>{if(!room||es||typeof EventSource==='undefined')return;fails=0;es=new EventSource(FB+'/rooms/'+room+'.json');
+ const connect=()=>{if(!room||es||typeof EventSource==='undefined')return;fails=0;netState('connecting');es=new EventSource(FB+'/rooms/'+room+'.json');
   const h=e=>{try{const m=JSON.parse(e.data);applyEv(m.path,m.data,e.type==='patch')}catch(_){}};
   es.addEventListener('put',h);es.addEventListener('patch',h);
-  es.onopen=()=>{fails=0;if(poll){clearInterval(poll);poll=null}};
-  es.onerror=()=>{if(++fails>=3){try{es.close()}catch(_){}es=null;startPoll()}};
+  es.onopen=()=>{fails=0;if(poll){clearInterval(poll);poll=null}netState('connected','Live connection')};
+  es.onerror=()=>{netState(navigator.onLine?'reconnecting':'offline');if(++fails>=3){try{es.close()}catch(_){}es=null;startPoll()}};
  };
- resumeLive=()=>{if(!room||typeof EventSource==='undefined')return;if(poll){clearInterval(poll);poll=null}if(es){try{es.close()}catch(_){}es=null}connect()};
+ resumeLive=()=>{if(!room||typeof EventSource==='undefined')return;if(poll){clearInterval(poll);poll=null}if(es){try{es.close()}catch(_){}es=null}netState('reconnecting');connect()};
  if(typeof EventSource==='undefined')startPoll();else connect();
  pumpT=setInterval(pump,80);
 }
-function closeStream(){if(es){try{es.close()}catch(_){}es=null}if(poll){clearInterval(poll);poll=null}if(pumpT){clearInterval(pumpT);pumpT=null}}
+function closeStream(){if(es){try{es.close()}catch(_){}es=null}if(poll){clearInterval(poll);poll=null}if(pumpT){clearInterval(pumpT);pumpT=null}netState('idle')}
 function applyEv(path,data,merge){
  const parts=String(path||'/').split('/').filter(Boolean);
  if(!parts.length){if(merge&&data){for(const k in data){if(data[k]===null)delete tree[k];else tree[k]=data[k]}}else tree=data||{}}
@@ -860,7 +861,7 @@ function beginGame(n,pl,idx){
 }
 // Recover the live room feed when connectivity returns; keep the current game state intact.
 window.addEventListener('online',()=>{if(room&&resumeLive)resumeLive()});
-window.addEventListener('offline',()=>{if(room&&es){try{es.close()}catch(_){}es=null;if(startPolling)startPolling()}});
+window.addEventListener('offline',()=>{if(room){netState('offline');if(es){try{es.close()}catch(_){}es=null}if(startPolling)startPolling()}});
 // remote moves are replayed through the normal game code, so every phone sees the same game
 function pump(){
  if(!ON||!evq.length||!started)return;const e=evq[0];
