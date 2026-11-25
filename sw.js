@@ -1,5 +1,5 @@
 const CACHE='ludo-v21';
-const CORE=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png','./icon-maskable-512.png','./enhancements.css','./enhancements.js'];
+const CORE=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png','./icon-maskable-512.png'];
 self.addEventListener('install',event=>{event.waitUntil((async()=>{const c=await caches.open(CACHE);await Promise.all(CORE.map(async u=>{try{const r=await fetch(u,{cache:'reload'});if(r.ok)await c.put(u,r)}catch(e){console.warn('Precache skipped',u)}}));await self.skipWaiting()})())});
 self.addEventListener('activate',event=>{event.waitUntil((async()=>{await Promise.all((await caches.keys()).filter(k=>k.startsWith('ludo-')&&k!==CACHE).map(k=>caches.delete(k)));await self.clients.claim()})())});
 self.addEventListener('fetch',event=>{const q=event.request;if(q.method!=='GET'||new URL(q.url).origin!==self.location.origin)return;event.respondWith((async()=>{try{const r=await fetch(q);if(r.ok){caches.open(CACHE).then(c=>c.put(q,r.clone())).catch(()=>{})}return r}catch(e){const cached=await caches.match(q);if(cached)return cached;if(q.mode==='navigate')return await caches.match('./index.html')||new Response('Offline page unavailable',{status:503});return new Response('Resource unavailable offline',{status:503})}})())});
