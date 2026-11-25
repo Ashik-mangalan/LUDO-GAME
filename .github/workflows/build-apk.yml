@@ -35,7 +35,7 @@ jobs:
           if (!manifest.name || !manifest.start_url || !manifest.scope) throw new Error('Manifest is missing required identity fields');
           const vm = require('vm');
           let match, scriptNo = 0;
-          const inlineScripts = /<script\\b(?![^>]*\\bsrc=)[^>]*>([\\s\\S]*?)<\\/script>/gi;
+          const inlineScripts = new RegExp('<script\\\\b(?![^>]*\\\\bsrc=)[^>]*>([\\\\s\\\\S]*?)<\\\\/script>', 'gi');
           while ((match = inlineScripts.exec(html))) if (match[1].trim()) new vm.Script(match[1], { filename: 'index-inline-' + (++scriptNo) + '.js' });
           new vm.Script(fs.readFileSync('enhancements.js', 'utf8'), { filename: 'enhancements.js' });
           console.log('Web app assets, manifest and JavaScript syntax checks passed (' + scriptNo + ' inline scripts).');
