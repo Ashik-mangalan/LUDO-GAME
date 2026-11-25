@@ -33,7 +33,12 @@ jobs:
           for (const asset of ['enhancements.css','enhancements.js']) if (!html.includes(asset)) throw new Error('index.html does not reference ' + asset);
           for (const icon of manifest.icons || []) if (!fs.existsSync(icon.src)) throw new Error('Missing manifest icon: ' + icon.src);
           if (!manifest.name || !manifest.start_url || !manifest.scope) throw new Error('Manifest is missing required identity fields');
-          console.log('Web app asset and manifest checks passed.');
+          const vm = require('vm');
+          let match, scriptNo = 0;
+          const inlineScripts = /<script\\b(?![^>]*\\bsrc=)[^>]*>([\\s\\S]*?)<\\/script>/gi;
+          while ((match = inlineScripts.exec(html))) if (match[1].trim()) new vm.Script(match[1], { filename: 'index-inline-' + (++scriptNo) + '.js' });
+          new vm.Script(fs.readFileSync('enhancements.js', 'utf8'), { filename: 'enhancements.js' });
+          console.log('Web app assets, manifest and JavaScript syntax checks passed (' + scriptNo + ' inline scripts).');
           NODE
 
       - name: Set up Java
