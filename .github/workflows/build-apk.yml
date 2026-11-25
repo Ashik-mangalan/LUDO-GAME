@@ -6,8 +6,6 @@ on:
     paths:
       - '.github/workflows/build-apk.yml'
       - 'index.html'
-      - 'enhancements.css'
-      - 'enhancements.js'
       - 'sw.js'
       - 'manifest.webmanifest'
       - 'icon-192.png'
@@ -28,16 +26,14 @@ jobs:
           const fs = require('fs');
           const html = fs.readFileSync('index.html', 'utf8');
           const manifest = JSON.parse(fs.readFileSync('manifest.webmanifest', 'utf8'));
-          const required = ['index.html','enhancements.css','enhancements.js','sw.js','manifest.webmanifest','icon-192.png','icon-512.png','icon-maskable-512.png'];
+          const required = ['index.html','sw.js','manifest.webmanifest','icon-192.png','icon-512.png','icon-maskable-512.png'];
           for (const file of required) if (!fs.existsSync(file)) throw new Error('Missing required app asset: ' + file);
-          for (const asset of ['enhancements.css','enhancements.js']) if (!html.includes(asset)) throw new Error('index.html does not reference ' + asset);
           for (const icon of manifest.icons || []) if (!fs.existsSync(icon.src)) throw new Error('Missing manifest icon: ' + icon.src);
           if (!manifest.name || !manifest.start_url || !manifest.scope) throw new Error('Manifest is missing required identity fields');
           const vm = require('vm');
           let match, scriptNo = 0;
           const inlineScripts = new RegExp('<script\\b(?![^>]*\\bsrc=)[^>]*>([\\s\\S]*?)<\\/script>', 'gi');
           while ((match = inlineScripts.exec(html))) if (match[1].trim()) new vm.Script(match[1], { filename: 'index-inline-' + (++scriptNo) + '.js' });
-          new vm.Script(fs.readFileSync('enhancements.js', 'utf8'), { filename: 'enhancements.js' });
           console.log('Web app assets, manifest and JavaScript syntax checks passed (' + scriptNo + ' inline scripts).');
           NODE
 
@@ -372,7 +368,7 @@ jobs:
         run: |
           ASSETS=android/app/src/main/assets
           mkdir -p $ASSETS
-          cp index.html enhancements.css enhancements.js sw.js manifest.webmanifest icon-192.png icon-512.png icon-maskable-512.png $ASSETS/
+          cp index.html sw.js manifest.webmanifest icon-192.png icon-512.png icon-maskable-512.png $ASSETS/
 
       - name: Build APK
         env:
