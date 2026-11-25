@@ -6,8 +6,13 @@ on:
     paths:
       - '.github/workflows/build-apk.yml'
       - 'index.html'
+      - 'enhancements.css'
+      - 'enhancements.js'
+      - 'sw.js'
+      - 'manifest.webmanifest'
       - 'icon-192.png'
       - 'icon-512.png'
+      - 'icon-maskable-512.png'
 
 jobs:
   build:
@@ -16,6 +21,20 @@ jobs:
     steps:
       - name: Check out repo
         uses: actions/checkout@v4
+
+      - name: Validate web app assets
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const html = fs.readFileSync('index.html', 'utf8');
+          const manifest = JSON.parse(fs.readFileSync('manifest.webmanifest', 'utf8'));
+          const required = ['index.html','enhancements.css','enhancements.js','sw.js','manifest.webmanifest','icon-192.png','icon-512.png','icon-maskable-512.png'];
+          for (const file of required) if (!fs.existsSync(file)) throw new Error('Missing required app asset: ' + file);
+          for (const asset of ['enhancements.css','enhancements.js']) if (!html.includes(asset)) throw new Error('index.html does not reference ' + asset);
+          for (const icon of manifest.icons || []) if (!fs.existsSync(icon.src)) throw new Error('Missing manifest icon: ' + icon.src);
+          if (!manifest.name || !manifest.start_url || !manifest.scope) throw new Error('Manifest is missing required identity fields');
+          console.log('Web app asset and manifest checks passed.');
+          NODE
 
       - name: Set up Java
         uses: actions/setup-java@v4
@@ -28,17 +47,33 @@ jobs:
         with:
           gradle-version: '8.9'
 
-      - name: Restore signing key
-        uses: actions/cache@v4
-        with:
-          path: ludo-release.jks
-          key: ludo-signing-key-v1
-
-      - name: Create signing key (first time only)
+      - name: Prepare APK signing key
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: |
-          if [ ! -f ludo-release.jks ]; then
-            keytool -genkeypair -keystore ludo-release.jks -storepass ludo-pass-123 -keypass ludo-pass-123 -alias ludo -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Ludo Game, O=Ashik Mangalan, C=IN"
+          KS_PATH="$GITHUB_WORKSPACE/ludo-release.jks"
+          if [ -n "$ANDROID_KEYSTORE_BASE64" ]; then
+            echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > "$KS_PATH"
+            KS_PASSWORD="$ANDROID_KEYSTORE_PASSWORD"
+            KS_ALIAS="$ANDROID_KEY_ALIAS"
+            KS_KEY_PASSWORD="$ANDROID_KEY_PASSWORD"
+            echo "Using repository-provided private upload key."
+          else
+            keytool -genkeypair -keystore "$KS_PATH" -storepass temporary-build-pass -keypass temporary-build-pass -alias ludo-test -keyalg RSA -keysize 2048 -validity 30 -dname "CN=Ludo Test Build, O=Local Testing, C=IN"
+            KS_PASSWORD=temporary-build-pass
+            KS_ALIAS=ludo-test
+            KS_KEY_PASSWORD=temporary-build-pass
+            echo "No upload-key secrets configured; this APK is test-signed and is NOT Play Store upload-ready."
           fi
+          {
+            echo "KS_PATH=$KS_PATH"
+            echo "KS_PASSWORD=$KS_PASSWORD"
+            echo "KS_ALIAS=$KS_ALIAS"
+            echo "KS_KEY_PASSWORD=$KS_KEY_PASSWORD"
+          } >> "$GITHUB_ENV"
 
       - name: Create Android project
         run: |
@@ -82,16 +117,16 @@ jobs:
                   applicationId 'com.ashik.ludo'
                   minSdk 23
                   targetSdk 35
-                  versionCode 3
-                  versionName '3.0'
+                  versionCode 4
+                  versionName '3.1'
               }
 
               signingConfigs {
                   release {
                       storeFile file(System.getenv('KS_PATH'))
-                      storePassword 'ludo-pass-123'
-                      keyAlias 'ludo'
-                      keyPassword 'ludo-pass-123'
+                      storePassword System.getenv('KS_PASSWORD')
+                      keyAlias System.getenv('KS_ALIAS')
+                      keyPassword System.getenv('KS_KEY_PASSWORD')
                   }
               }
 
@@ -111,6 +146,8 @@ jobs:
 
           cat > android/app/src/main/AndroidManifest.xml <<'EOF'
           <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+              <uses-permission android:name="android.permission.INTERNET" />
+              <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
               <uses-permission android:name="android.permission.VIBRATE" />
               <application
                   android:icon="@mipmap/ic_launcher"
@@ -330,11 +367,14 @@ jobs:
         run: |
           ASSETS=android/app/src/main/assets
           mkdir -p $ASSETS
-          cp index.html icon-192.png $ASSETS/
+          cp index.html enhancements.css enhancements.js sw.js manifest.webmanifest icon-192.png icon-512.png icon-maskable-512.png $ASSETS/
 
       - name: Build APK
         env:
-          KS_PATH: ${{ github.workspace }}/ludo-release.jks
+          KS_PATH: ${{ env.KS_PATH }}
+          KS_PASSWORD: ${{ env.KS_PASSWORD }}
+          KS_ALIAS: ${{ env.KS_ALIAS }}
+          KS_KEY_PASSWORD: ${{ env.KS_KEY_PASSWORD }}
         run: |
           cd android
           gradle assembleRelease
