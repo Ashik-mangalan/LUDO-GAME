@@ -1,4 +1,4 @@
-const CACHE='ludo-v26';
+const CACHE='ludo-v27';
 const CORE=['./','./index.html','./6player.html','./manifest.webmanifest','./icon-192.png','./icon-512.png','./icon-maskable-512.png'];
 self.addEventListener('install',event=>{event.waitUntil((async()=>{const c=await caches.open(CACHE);await Promise.all(CORE.map(async u=>{try{const r=await fetch(u,{cache:'reload'});if(r.ok)await c.put(u,r)}catch(e){console.warn('Precache skipped',u)}}));await self.skipWaiting()})())});
 self.addEventListener('activate',event=>{event.waitUntil((async()=>{await Promise.all((await caches.keys()).filter(k=>k.startsWith('ludo-')&&k!==CACHE).map(k=>caches.delete(k)));await self.clients.claim()})())});
