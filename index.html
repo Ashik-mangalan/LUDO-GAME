@@ -225,7 +225,7 @@ body[data-frame=sky] #bwrap{filter:drop-shadow(0 0 14px #4db8ff) drop-shadow(0 0
 </style><style>
 #onBody{display:flex;flex-direction:column;gap:12px}
 #onBody input{width:100%;height:56px;border:2px solid #3de8c8aa;border-radius:16px;background:#04202b;color:#fff;text-align:center;font:400 28px Archivo,sans-serif;letter-spacing:8px;outline:none;-webkit-user-select:text;user-select:text}
-.oncode{text-align:center;font:400 46px Archivo,sans-serif;letter-spacing:10px;color:#ffd75a;text-shadow:0 0 16px #ffd75a66}
+.oncode{text-align:center;display:flex;align-items:center;justify-content:center;gap:10px;font:400 46px Archivo,sans-serif;letter-spacing:clamp(4px,2vw,10px);color:#ffd75a;text-shadow:0 0 16px #ffd75a66}.oncopy{font:700 12px Poppins,sans-serif;letter-spacing:0;padding:8px 12px;border-radius:10px;border:1px solid #3de8c866;background:#124154;color:#eafffb;touch-action:manipulation}.oncopy:active{transform:scale(.96)}
 .onp{display:flex;align-items:center;gap:10px;padding:8px 12px;border:1.5px solid #3de8c844;border-radius:14px;background:#04202b;font:700 15px Poppins;color:#fff}
 .onp i{width:14px;height:14px;border-radius:50%;flex:none}
 .onp.wait{opacity:.45;font-weight:600}
@@ -1140,12 +1140,13 @@ function draw(){
  if(view==='home'){
   b.innerHTML='<div class="card"><div class="lbl">Create a room</div><div class="seg" id="onN">'+[2,3,4].map(n=>'<button class="btn sg '+(want===n?'on':'')+'" data-n="'+n+'">'+n+' players</button>').join('')+'</div><button class="btn b0" id="onCreate">Create room</button></div><div class="card"><div class="lbl">Join a friend</div><input id="onCode" inputmode="numeric" maxlength="4" placeholder="----"><button class="btn b5" id="onJoin">Join room</button></div><div class="onmsg">'+note+'</div><div class="onhint">Needs internet · Ludo only · every player uses their own phone</div>';
   b.querySelectorAll('#onN button').forEach(x=>x.onclick=()=>{want=+x.dataset.n;draw()});
-  $o('onCreate').onclick=create;$o('onJoin').onclick=join;
+  $o('onCreate').onclick=create;$o('onJoin').onclick=join;$o('onCode').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();join()}};
  }else{
   const pl=plist(),n=(tree.meta&&tree.meta.n)||want,ss=seatsFor(n);
   let rows='';for(let i=0;i<n;i++){const p=pl[i];rows+='<div class="onp '+(p?'':'wait')+'"><i style="background:'+col(ss[i])+'"></i>'+(p?esc(p.name)+(i===0?' · host':'')+(p.k===myKey?' (you)':''):'Waiting for player…')+'</div>'}
   const ready=pl.length>=n;
-  b.innerHTML='<div class="card"><div class="lbl">Room code</div><div class="oncode">'+room+'</div><div class="onhint">Tell your friends this code</div>'+rows+'</div>'+(host?'<button class="btn gold" id="onStart" '+(ready?'':'disabled style="opacity:.45"')+'>'+(ready?'Start game':'Waiting for players ('+pl.length+'/'+n+')')+'</button>':'<div class="onmsg">Waiting for the host to start…</div>')+'<div class="onmsg">'+note+'</div>';
+  b.innerHTML='<div class="card"><div class="lbl">Room code</div><div class="oncode"><span>'+room+'</span><button id="onCopy" class="oncopy" type="button">Copy</button></div><div class="onhint">Share this code with friends</div>'+rows+'</div>'+(host?'<button class="btn gold" id="onStart" '+(ready?'':'disabled style="opacity:.45"')+'>'+(ready?'Start game':'Waiting for players ('+pl.length+'/'+n)+')')+'</button>':'<div class="onmsg">Waiting for the host to start…</div>')+'<div class="onmsg">'+note+'</div>';
+  const copyBtn=$o('onCopy');if(copyBtn)copyBtn.onclick=async()=>{try{await navigator.clipboard.writeText(room);note='Room code copied!';draw()}catch(e){const ta=document.createElement('textarea');ta.value=room;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');note='Room code copied!'}catch(_){note='Copy failed — share the code manually'}ta.remove();draw()}};
   if(host)$o('onStart').onclick=startGame;
  }
 }
