@@ -569,6 +569,32 @@ input:focus,select:focus,textarea:focus{outline:2px solid rgba(101,231,255,.55)!
 }
 
 </style>
+<style id="premium-ui-v4">
+/* Premium UI v4 — compact layouts, tactile feedback, focus and motion preferences */
+:root{--ludo-vh:100dvh}
+#app{--bw:min(100vw,calc(var(--ludo-vh) - 318px))}
+#menu .in{width:min(92vw,430px);padding:clamp(8px,2vh,14px) 0 calc(12px + env(safe-area-inset-bottom));gap:clamp(7px,1.5vh,12px)}
+#menu .foot{gap:9px;flex-wrap:wrap}
+#menu .foot .btn,#menu .foot #featureEntry{flex:1 1 140px}
+#featureEntry{min-height:46px;height:auto;padding:8px 12px;font-weight:700}
+#profileCorner{min-height:44px}
+#featureHub{padding-bottom:calc(20px + env(safe-area-inset-bottom))}
+#featureHub .fhitem,#featureHub .fhbtn,#featureHub button{touch-action:manipulation}
+#featureHub input,#onCode,#onBody input{user-select:text;-webkit-user-select:text}
+
+button:focus-visible,input:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.btn,.fhbtn,#featureEntry,.fhitem,.ib{touch-action:manipulation}
+.btn:active,.fhbtn:active,#featureEntry:active,.fhitem:active{filter:brightness(1.15)}
+#dice{touch-action:manipulation}
+#ludoPremiumToast{position:fixed;z-index:100;left:50%;bottom:calc(22px + env(safe-area-inset-bottom));transform:translate(-50%,18px);max-width:min(90vw,430px);padding:12px 18px;border:1px solid #78ffe2;border-radius:16px;background:linear-gradient(140deg,#105264,#062530);color:#eafffb;font:600 13px Poppins,system-ui,sans-serif;text-align:center;box-shadow:0 10px 28px #0008,0 0 22px #1be2c433;opacity:0;pointer-events:none;transition:opacity .22s,transform .22s}
+#ludoPremiumToast.show{opacity:1;transform:translate(-50%,0)}
+#ludoNetStatus{max-width:92vw;box-shadow:0 4px 18px #0008}
+#featureHub .fhtop{padding-top:calc(8px + env(safe-area-inset-top))}
+@media(max-height:700px){#menu .hero .lg{width:min(55vw,220px)}#menu .hero{margin:0}#menu .in{gap:7px}#menu .card{padding:10px 12px}#menu .btn.big{--h:48px;font-size:17px}#menu .tiles .btn{--h:44px;font-size:12px}}
+@media(max-width:360px){#profileCorner{padding-right:10px;gap:6px}#profileCorner .pnm{max-width:35vw}#menu .tiles{gap:5px}#menu .card{padding:10px}#menu .btn{font-size:12px}}
+@media(max-height:560px) and (orientation:landscape){#app{--bw:min(54vw,calc(var(--ludo-vh) - 105px))}#top{height:46px;padding-top:0}#mid{padding-bottom:0}#msg{min-height:34px;margin-top:0;font-size:12px}#menu .hero .lg{width:min(40vw,180px)}#menu .in{gap:5px;padding:4px 0}#menu .card{gap:5px;padding:8px}#menu .btn{--h:40px;font-size:11px}#menu .btn.big{--h:44px;font-size:15px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}}
+</style>
 </head><body>
 <div id="app">
 <div id="top"><div class="tlogo"></div><div class="grow"></div><button class="ib" id="snd" aria-label="Sound"></button><button class="ib" id="mus" aria-label="Music"></button><button class="ib" id="mnu" aria-label="Menu"></button></div>
@@ -1260,4 +1286,47 @@ $o('onBack').onclick=()=>{if(room&&!begun)leaveOnline();$o('online').classList.a
 
 </script>
 
+<script id="premium-ui-v4-runtime">
+/* Premium UI v4 runtime — no game-state or rules replacement */
+(()=>{
+ const $=id=>document.getElementById(id);
+ const app=$('app'),hub=$('featureHub'),content=$('fhContent'),menu=$('menu'),dice=$('dice');
+ if(!app||!menu)return;
+ const entry=$('featureEntry');
+ const foot=menu.querySelector('.foot');
+ if(entry&&foot&&!entry.isConnected)foot.appendChild(entry);
+ if(entry){entry.setAttribute('aria-label','Open Player Center, profile, rewards and game statistics');entry.title='Profile, achievements, rewards, statistics and more';}
+ const profile=$('profileCorner');
+ if(profile){profile.title='Open Player Center';profile.setAttribute('aria-label','Open player profile and Player Center');}
+ const msg=$('msg');if(msg){msg.setAttribute('role','status');msg.setAttribute('aria-live','polite');msg.setAttribute('aria-atomic','true');}
+ if(dice){dice.setAttribute('aria-label','Roll the dice when it is your turn');dice.setAttribute('title','Roll the dice');}
+ const toast=document.createElement('div');toast.id='ludoPremiumToast';toast.setAttribute('role','status');toast.setAttribute('aria-live','polite');document.body.appendChild(toast);
+ let toastTimer=0;
+ const showToast=text=>{toast.textContent=text;toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),2400)};
+ const viewport=()=>document.documentElement.style.setProperty('--ludo-vh',(window.visualViewport?.height||window.innerHeight||0)+'px');
+ viewport();window.addEventListener('resize',viewport,{passive:true});if(window.visualViewport)window.visualViewport.addEventListener('resize',viewport,{passive:true});
+ if(content)content.addEventListener('click',e=>{
+  const action=e.target.closest('[data-act]')?.dataset.act;
+  if(action==='saveprofile')showToast('Profile saved on this device.');
+  else if(action==='claim')showToast('Daily reward claimed! Coins and XP added.');
+  else if(action==='spin:true')showToast('Lucky Spin reward added!');
+  else if(action==='soundfx')showToast('Sound setting updated.');
+  else if(action==='music')showToast('Music setting updated.');
+  else if(action?.startsWith('theme:'))showToast('Theme updated.');
+  else if(action?.startsWith('frame:'))showToast('Frame updated.');
+ },{passive:true});
+ if(content)content.addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&e.target?.id==='fhName'){e.preventDefault();const saveBtn=content.querySelector('[data-act="saveprofile"]');if(saveBtn)saveBtn.click()}
+ });
+ document.addEventListener('keydown',e=>{
+  if(e.key!=='Escape'||e.defaultPrevented)return;
+  if(hub&&!hub.classList.contains('hide'))return;
+  if(menu.classList.contains('hide')&&typeof window.goBack==='function')window.goBack();
+ });
+ // Clear stale or missing avatar-image URLs from a broken transient object URL is not persisted here.
+ // Preserve data URLs and built-in avatars as they are user profile choices.
+ const mediaQuery=window.matchMedia?.('(prefers-reduced-motion: reduce)');
+ if(mediaQuery?.matches){document.documentElement.classList.add('reduce-motion')}
+})();
+</script>
 </body></html>
